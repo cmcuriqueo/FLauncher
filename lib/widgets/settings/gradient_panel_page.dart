@@ -19,6 +19,7 @@
 import 'package:flauncher/gradients.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +80,9 @@ class GradientPanelPage extends StatelessWidget {
       );
 
   ShapeBorder? _cardBorder(bool hasFocus) => hasFocus
-      ? RoundedRectangleBorder(side: BorderSide(color: Colors.white, width: 2), borderRadius: BorderRadius.circular(4))
+      ? RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.circular(Glass.radiusSmall),
+        )
       : null;
 }

@@ -17,6 +17,7 @@
  */
 
 import 'package:flauncher/actions.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
 
 class RightPanelDialog extends StatelessWidget {
@@ -31,15 +32,25 @@ class RightPanelDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.zero,
+        elevation: 0,
+        shape: RoundedRectangleBorder(),
+        insetPadding: EdgeInsets.all(12),
         child: Align(
           alignment: Alignment.centerRight,
-          child: Container(
-            padding: EdgeInsets.all(16),
-            // ignore: deprecated_member_use
-            color: Theme.of(context).backgroundColor,
-            width: width,
-            child: Actions(actions: {BackIntent: BackAction(context)}, child: child),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Glass.radiusLarge),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.45), blurRadius: 40, offset: Offset(0, 16))],
+            ),
+            child: GlassContainer(
+              radius: Glass.radiusLarge,
+              blur: 36,
+              opacity: 0.08,
+              padding: EdgeInsets.all(20),
+              width: width,
+              height: double.infinity,
+              child: Actions(actions: {BackIntent: BackAction(context)}, child: child),
+            ),
           ),
         ),
       );
