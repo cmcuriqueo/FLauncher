@@ -25,6 +25,7 @@ import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/apps_grid.dart';
 import 'package:flauncher/widgets/category_row.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/settings/settings_panel.dart';
 import 'package:flauncher/widgets/time_widget.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +40,12 @@ class FLauncher extends StatelessWidget {
             Consumer<WallpaperService>(
               builder: (_, wallpaper, __) => _wallpaper(context, wallpaper.wallpaperBytes, wallpaper.gradient.gradient),
             ),
+            _scrim(),
             Scaffold(
               backgroundColor: Colors.transparent,
               appBar: _appBar(context),
               body: Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
                 child: Consumer<AppsService>(
                   builder: (context, appsService, _) => appsService.initialized
                       ? SingleChildScrollView(child: _categories(appsService.categoriesWithApps))
@@ -79,35 +81,54 @@ class FLauncher extends StatelessWidget {
       );
 
   AppBar _appBar(BuildContext context) => AppBar(
+        toolbarHeight: 72,
         actions: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                left: 2.0,
-                top: 18.0,
-                child: ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
-                  child: Icon(Icons.settings_outlined, color: Colors.black54),
+          Padding(
+            padding: EdgeInsets.only(right: 24),
+            child: Center(
+              child: GlassContainer(
+                radius: 999,
+                padding: EdgeInsets.fromLTRB(16, 4, 6, 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TimeWidget(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Container(width: 1, height: 18, color: Glass.stroke(0.25)),
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.all(6),
+                      constraints: BoxConstraints(),
+                      splashRadius: 18,
+                      icon: Icon(Icons.settings_outlined),
+                      onPressed: () => showDialog(context: context, builder: (_) => SettingsPanel()),
+                    ),
+                  ],
                 ),
               ),
-              IconButton(
-                padding: EdgeInsets.all(2),
-                constraints: BoxConstraints(),
-                splashRadius: 20,
-                icon: Icon(Icons.settings_outlined),
-                onPressed: () => showDialog(context: context, builder: (_) => SettingsPanel()),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 16, right: 32),
-            child: Align(
-              alignment: Alignment.center,
-              child: TimeWidget(),
             ),
           ),
         ],
+      );
+
+  Widget _scrim() => Positioned.fill(
+        child: IgnorePointer(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.30),
+                  Colors.black.withOpacity(0.05),
+                  Colors.black.withOpacity(0.40),
+                ],
+                stops: [0, 0.4, 1],
+              ),
+            ),
+          ),
+        ),
       );
 
   Widget _wallpaper(BuildContext context, Uint8List? wallpaperImage, Gradient gradient) => wallpaperImage != null

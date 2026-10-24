@@ -21,9 +21,9 @@ import 'dart:math';
 import 'package:flauncher/database.dart';
 import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/widgets/app_card.dart';
+import 'package:flauncher/widgets/empty_category_card.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
-import 'package:flauncher/widgets/settings/categories_panel_page.dart';
-import 'package:flauncher/widgets/settings/settings_panel.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,13 +43,7 @@ class AppsGrid extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 16),
-            child: Text(
-              category.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(shadows: [Shadow(color: Colors.black54, offset: Offset(1, 1), blurRadius: 8)]),
-            ),
+            child: Text(category.name, style: Glass.sectionTitle(context)),
           ),
           applications.isNotEmpty
               ? GridView.custom(
@@ -137,25 +131,7 @@ class AppsGrid extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    child: InkWell(
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (_) => SettingsPanel(initialRoute: CategoriesPanelPage.routeName),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Center(
-                          child: Text(
-                            "This category is empty.",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: EmptyCategoryCard(),
                 ),
               ),
             ),

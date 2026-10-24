@@ -25,6 +25,7 @@ import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/widgets/application_info_panel.dart';
 import 'package:flauncher/widgets/color_helpers.dart';
 import 'package:flauncher/widgets/focus_keyboard_listener.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -99,105 +100,126 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) => FocusKeyboardListener(
         onPressed: (key) => _onPressed(context, key),
         onLongPress: (key) => _onLongPress(context, key),
-        builder: (context) => AspectRatio(
-          aspectRatio: 16 / 9,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            transformAlignment: Alignment.center,
-            transform: _scaleTransform(context),
-            child: Material(
-              borderRadius: BorderRadius.circular(8),
-              clipBehavior: Clip.antiAlias,
-              elevation: Focus.of(context).hasFocus ? 16 : 0,
-              shadowColor: Colors.black,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  InkWell(
-                    autofocus: widget.autofocus,
-                    focusColor: Colors.transparent,
-                    onTap: () => _onPressed(context, null),
-                    onLongPress: () => _onLongPress(context, null),
-                    child: widget.application.banner != null
-                        ? Ink.image(image: _cachedMemoryImage(widget.application.banner!), fit: BoxFit.cover)
-                        : Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Ink.image(
-                                    image: _cachedMemoryImage(widget.application.icon!),
-                                    height: double.infinity,
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      widget.application.name,
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
+        builder: (context) {
+          final focused = Focus.of(context).hasFocus;
+          return AspectRatio(
+            aspectRatio: 16 / 9,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
+              transformAlignment: Alignment.center,
+              transform: _scaleTransform(focused),
+              decoration: BoxDecoration(
+                borderRadius: _borderRadius,
+                boxShadow: focused ? Glass.focusShadow : Glass.restShadow,
+              ),
+              child: Material(
+                color: Glass.fill(0.10),
+                borderRadius: _borderRadius,
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    InkWell(
+                      autofocus: widget.autofocus,
+                      focusColor: Colors.transparent,
+                      onTap: () => _onPressed(context, null),
+                      onLongPress: () => _onLongPress(context, null),
+                      child: widget.application.banner != null
+                          ? Ink.image(image: _cachedMemoryImage(widget.application.banner!), fit: BoxFit.cover)
+                          : Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Ink.image(
+                                      image: _cachedMemoryImage(widget.application.icon!),
+                                      height: double.infinity,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                  ),
-                  if (_moving) ..._arrows(),
-                  IgnorePointer(
-                    child: AnimatedOpacity(
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      opacity: Focus.of(context).hasFocus ? 0 : 0.10,
-                      child: Container(color: Colors.black),
-                    ),
-                  ),
-                  Selector<SettingsService, bool>(
-                    selector: (_, settingsService) => settingsService.appHighlightAnimationEnabled,
-                    builder: (context, appHighlightAnimationEnabled, __) {
-                      if (appHighlightAnimationEnabled) {
-                        _animation.forward();
-                        return AnimatedBuilder(
-                          animation: _animation,
-                          builder: (context, child) => IgnorePointer(
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.easeInOut,
-                              decoration: BoxDecoration(
-                                border: Focus.of(context).hasFocus
-                                    ? Border.all(
-                                        color: _lastBorderColor =
-                                            computeBorderColor(_animation.value, _lastBorderColor),
-                                        width: 3)
-                                    : null,
-                                borderRadius: BorderRadius.circular(8),
+                                  Flexible(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        widget.application.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                    ),
+                    if (_moving) ..._arrows(),
+                    IgnorePointer(
+                      child: AnimatedOpacity(
+                        duration: Duration(milliseconds: 220),
+                        curve: Curves.easeInOut,
+                        opacity: focused ? 0 : 0.14,
+                        child: Container(color: Colors.black),
+                      ),
+                    ),
+                    IgnorePointer(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment(0, 0.7),
+                            colors: [Glass.fill(0.14), Glass.fill(0)],
                           ),
-                        );
-                      }
-                      _animation.stop();
-                      return SizedBox();
-                    },
-                  ),
-                ],
+                        ),
+                      ),
+                    ),
+                    _focusRing(focused),
+                  ],
+                ),
               ),
+            ),
+          );
+        },
+      );
+
+  static final BorderRadius _borderRadius = BorderRadius.circular(Glass.radiusMedium);
+
+  Widget _focusRing(bool focused) => Selector<SettingsService, bool>(
+        selector: (_, settingsService) => settingsService.appHighlightAnimationEnabled,
+        builder: (context, appHighlightAnimationEnabled, __) {
+          if (appHighlightAnimationEnabled && focused) {
+            _animation.forward();
+            return AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) =>
+                  _ring(focused, _lastBorderColor = computeBorderColor(_animation.value, _lastBorderColor)),
+            );
+          }
+          _animation.stop();
+          return _ring(focused, Colors.white);
+        },
+      );
+
+  Widget _ring(bool focused, Color color) => IgnorePointer(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            borderRadius: _borderRadius,
+            border: Border.all(
+              color: focused ? color.withOpacity(0.95) : Glass.stroke(0.12),
+              width: focused ? 2.5 : 1,
             ),
           ),
         ),
       );
 
-  Matrix4 _scaleTransform(BuildContext context) {
-    final scale = _moving
-        ? 1.0
-        : Focus.of(context).hasFocus
-            ? 1.1
-            : 1.0;
+  Matrix4 _scaleTransform(bool focused) {
+    final scale = !_moving && focused ? 1.08 : 1.0;
     return Matrix4.diagonal3Values(scale, scale, 1.0);
   }
 
@@ -215,7 +237,8 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Theme.of(context).primaryColor.withOpacity(0.8),
+              color: Colors.black.withOpacity(0.55),
+              border: Border.all(color: Glass.stroke(0.4)),
             ),
             child: Icon(
               icon,
