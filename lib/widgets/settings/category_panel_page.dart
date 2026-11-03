@@ -19,6 +19,7 @@
 import 'package:flauncher/database.dart';
 import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/widgets/add_category_dialog.dart';
+import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,6 +62,8 @@ class CategoryPanelPage extends StatelessWidget {
                             onChanged: (value) => context.read<AppsService>().setCategorySort(category, value!),
                             isDense: true,
                             isExpanded: true,
+                            underline: SizedBox.shrink(),
+                            borderRadius: BorderRadius.circular(Glass.radiusSmall),
                             items: [
                               DropdownMenuItem(
                                 value: CategorySort.alphabetical,
@@ -86,6 +89,8 @@ class CategoryPanelPage extends StatelessWidget {
                             onChanged: (value) => context.read<AppsService>().setCategoryType(category, value!),
                             isDense: true,
                             isExpanded: true,
+                            underline: SizedBox.shrink(),
+                            borderRadius: BorderRadius.circular(Glass.radiusSmall),
                             items: [
                               DropdownMenuItem(
                                 value: CategoryType.row,
@@ -111,6 +116,8 @@ class CategoryPanelPage extends StatelessWidget {
                               value: category.columnsCount,
                               isDense: true,
                               isExpanded: true,
+                              underline: SizedBox.shrink(),
+                              borderRadius: BorderRadius.circular(Glass.radiusSmall),
                               items: [for (int i = 5; i <= 10; i++) i]
                                   .map(
                                     (value) => DropdownMenuItem(
@@ -136,6 +143,8 @@ class CategoryPanelPage extends StatelessWidget {
                               value: category.rowHeight,
                               isDense: true,
                               isExpanded: true,
+                              underline: SizedBox.shrink(),
+                              borderRadius: BorderRadius.circular(Glass.radiusSmall),
                               items: [for (int i = 80; i <= 150; i += 10) i]
                                   .map(
                                     (value) => DropdownMenuItem(
@@ -153,7 +162,7 @@ class CategoryPanelPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red[400]),
+                        style: ElevatedButton.styleFrom(backgroundColor: Glass.red),
                         child: Text("Delete"),
                         onPressed: () async {
                           await context.read<AppsService>().deleteCategory(category);

@@ -25,6 +25,7 @@ import 'package:flauncher/providers/settings_service.dart';
 import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/unsplash_service.dart';
+import 'package:flauncher/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,19 +45,6 @@ class FLauncherApp extends StatelessWidget {
   final FLauncherDatabase _fLauncherDatabase;
   final UnsplashService _unsplashService;
   final FirebaseRemoteConfig _firebaseRemoteConfig;
-
-  static const MaterialColor _swatch = MaterialColor(0xFF011526, <int, Color>{
-    50: Color(0xFF36A0FA),
-    100: Color(0xFF067BDE),
-    200: Color(0xFF045CA7),
-    300: Color(0xFF033662),
-    400: Color(0xFF022544),
-    500: Color(0xFF011526),
-    600: Color(0xFF000508),
-    700: Color(0xFF000000),
-    800: Color(0xFF000000),
-    900: Color(0xFF000000),
-  });
 
   FLauncherApp(
     this._sharedPreferences,
@@ -96,30 +84,7 @@ class FLauncherApp extends StatelessWidget {
             DirectionalFocusIntent: SoundFeedbackDirectionalFocusAction(context),
           },
           title: 'FLauncher',
-          theme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: _swatch,
-            // ignore: deprecated_member_use
-            accentColor: _swatch[200],
-            cardColor: _swatch[300],
-            canvasColor: _swatch[300],
-            dialogBackgroundColor: _swatch[400],
-            // ignore: deprecated_member_use
-            backgroundColor: _swatch[400],
-            scaffoldBackgroundColor: _swatch[400],
-            textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: Colors.white)),
-            appBarTheme: AppBarTheme(elevation: 0, backgroundColor: Colors.transparent),
-            typography: Typography.material2018(),
-            inputDecorationTheme: InputDecorationTheme(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-              labelStyle: Typography.material2018().white.bodyMedium,
-            ),
-            textSelectionTheme: TextSelectionThemeData(
-              cursorColor: Colors.white,
-              selectionColor: _swatch[200],
-              selectionHandleColor: _swatch[200],
-            ),
-          ),
+          theme: fLauncherTheme(),
           home: Builder(
             builder: (context) => WillPopScope(
               onWillPop: () async {

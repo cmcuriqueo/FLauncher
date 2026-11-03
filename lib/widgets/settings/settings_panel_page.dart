@@ -83,14 +83,14 @@ class SettingsPanelPage extends StatelessWidget {
               ),
               Divider(),
               SwitchListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.use24HourTimeFormat,
                 onChanged: (value) => settingsService.setUse24HourTimeFormat(value),
                 title: Text("Use 24-hour time format"),
                 dense: true,
               ),
               SwitchListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.appHighlightAnimationEnabled,
                 onChanged: (value) => settingsService.setAppHighlightAnimationEnabled(value),
                 title: Text("App card highlight animation"),
@@ -98,7 +98,7 @@ class SettingsPanelPage extends StatelessWidget {
               ),
               Divider(),
               SwitchListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.crashReportsEnabled,
                 onChanged: (value) => settingsService.setCrashReportsEnabled(value),
                 title: Text("Crash Reporting"),
@@ -106,7 +106,7 @@ class SettingsPanelPage extends StatelessWidget {
                 subtitle: Text("Automatically send crash reports through Firebase Crashlytics."),
               ),
               SwitchListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.analyticsEnabled,
                 onChanged: (value) => settingsService.setAnalyticsEnabled(value),
                 title: Text("Analytics Reporting"),
