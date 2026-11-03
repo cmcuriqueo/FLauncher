@@ -31,6 +31,7 @@ const _appHighlightAnimationEnabledKey = "app_highlight_animation_enabled";
 const _gradientUuidKey = "gradient_uuid";
 const _unsplashEnabledKey = "unsplash_enabled";
 const _unsplashAuthorKey = "unsplash_author";
+const _languageCodeKey = "language_code";
 
 class SettingsService extends ChangeNotifier {
   final SharedPreferences _sharedPreferences;
@@ -52,6 +53,8 @@ class SettingsService extends ChangeNotifier {
   bool get unsplashEnabled => _firebaseRemoteConfig.getBool(_unsplashEnabledKey);
 
   String? get unsplashAuthor => _sharedPreferences.getString(_unsplashAuthorKey);
+
+  String? get languageCode => _sharedPreferences.getString(_languageCodeKey);
 
   SettingsService(
     this._sharedPreferences,
@@ -102,6 +105,15 @@ class SettingsService extends ChangeNotifier {
       await _sharedPreferences.remove(_unsplashAuthorKey);
     } else {
       await _sharedPreferences.setString(_unsplashAuthorKey, value);
+    }
+    notifyListeners();
+  }
+
+  Future<void> setLanguageCode(String? value) async {
+    if (value == null) {
+      await _sharedPreferences.remove(_languageCodeKey);
+    } else {
+      await _sharedPreferences.setString(_languageCodeKey, value);
     }
     notifyListeners();
   }

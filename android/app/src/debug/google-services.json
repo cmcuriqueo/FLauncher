@@ -1,21 +1,29 @@
 {
   "project_info": {
-    "project_number": "_",
-    "project_id": "_"
+    "project_number": "123456789012",
+    "project_id": "flauncher-local-dev",
+    "storage_bucket": "flauncher-local-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "_",
+        "mobilesdk_app_id": "1:123456789012:android:a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4",
         "android_client_info": {
           "package_name": "me.efesser.flauncher"
         }
       },
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "_"
+          "current_key": "AIzaSyA1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q"
         }
-      ]
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
-  ]
+  ],
+  "configuration_version": "1"
 }

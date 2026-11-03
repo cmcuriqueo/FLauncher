@@ -29,6 +29,7 @@ import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/settings/settings_panel.dart';
 import 'package:flauncher/widgets/time_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class FLauncher extends StatelessWidget {
@@ -147,7 +148,7 @@ class FLauncher extends StatelessWidget {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text("Loading...", style: Theme.of(context).textTheme.titleLarge),
+            Text(AppLocalizations.of(context)!.loading, style: Theme.of(context).textTheme.titleLarge),
           ],
         ),
       );

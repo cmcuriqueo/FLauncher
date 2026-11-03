@@ -31,6 +31,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'database.dart';
 import 'flauncher.dart';
@@ -70,7 +71,11 @@ class FLauncherApp extends StatelessWidget {
               update: (_, settingsService, wallpaperService) => wallpaperService!..settingsService = settingsService),
           Provider<TickerModel>(create: (context) => TickerModel(null))
         ],
-        child: MaterialApp(
+        child: Consumer<SettingsService>(
+          builder: (context, settingsService, _) => MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: settingsService.languageCode != null ? Locale(settingsService.languageCode!) : null,
           shortcuts: {
             ...WidgetsApp.defaultShortcuts,
             SingleActivator(LogicalKeyboardKey.select): ActivateIntent(),
@@ -96,6 +101,7 @@ class FLauncherApp extends StatelessWidget {
               },
               child: Actions(actions: {BackIntent: BackAction(context, systemNavigator: true)}, child: FLauncher()),
             ),
+          ),
           ),
         ),
       );

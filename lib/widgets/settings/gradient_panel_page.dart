@@ -21,6 +21,7 @@ import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
 import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class GradientPanelPage extends StatelessWidget {
@@ -29,7 +30,7 @@ class GradientPanelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text("Gradient", style: Theme.of(context).textTheme.titleLarge),
+          Text(AppLocalizations.of(context)!.gradient, style: Theme.of(context).textTheme.titleLarge),
           Divider(),
           Expanded(
             child: GridView.count(

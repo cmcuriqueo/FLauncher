@@ -22,6 +22,7 @@ import 'package:flauncher/widgets/add_category_dialog.dart';
 import 'package:flauncher/widgets/settings/categories_panel_page.dart';
 import 'package:flauncher/widgets/settings/category_panel_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -110,6 +111,8 @@ Future<void> _pumpWidgetWithProviders(WidgetTester tester, AppsService appsServi
         ChangeNotifierProvider<AppsService>.value(value: appsService),
       ],
       builder: (_, __) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routes: {
           CategoryPanelPage.routeName: (_) => Container(key: Key("CategoryPanelPage")),
         },

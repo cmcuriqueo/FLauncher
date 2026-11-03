@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class FLauncherAboutDialog extends StatelessWidget {
@@ -29,6 +30,7 @@ class FLauncherAboutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final textStyle = Theme.of(context).textTheme.bodyMedium!;
     final underlined = textStyle.copyWith(decoration: TextDecoration.underline);
     return AboutDialog(
@@ -42,16 +44,13 @@ class FLauncherAboutDialog extends StatelessWidget {
           text: TextSpan(
             style: textStyle,
             children: [
-              TextSpan(
-                text: "FLauncher is an open-source alternative launcher for Android TV.\n"
-                    "Source code available at ",
-              ),
+              TextSpan(text: l10n.aboutSourceCode),
               TextSpan(text: "https://gitlab.com/etiennf01/flauncher", style: underlined),
               TextSpan(text: ".\n\n"),
-              TextSpan(text: "Logo by Katie "),
+              TextSpan(text: l10n.aboutLogoBy),
               TextSpan(text: "@fureturoe", style: underlined),
               TextSpan(text: ", "),
-              TextSpan(text: "design by "),
+              TextSpan(text: l10n.aboutDesignBy),
               TextSpan(text: "@FXCostanzo", style: underlined),
               TextSpan(text: "."),
             ],
