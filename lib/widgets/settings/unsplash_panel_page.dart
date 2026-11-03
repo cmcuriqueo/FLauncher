@@ -23,24 +23,27 @@ import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/focus_keyboard_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class UnsplashPanelPage extends StatelessWidget {
   static const String routeName = "unsplash_panel";
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return DefaultTabController(
         length: 2,
         child: Column(
           children: [
-            Text("Unsplash", style: Theme.of(context).textTheme.titleLarge),
+            Text(l10n.unsplash, style: Theme.of(context).textTheme.titleLarge),
             Divider(),
             Material(
               type: MaterialType.transparency,
               child: TabBar(
                 tabs: [
-                  Tab(child: Row(children: [Icon(Icons.sync), SizedBox(width: 8), Text("Random")])),
-                  Tab(child: Row(children: [Icon(Icons.search), SizedBox(width: 8), Text("Search")])),
+                  Tab(child: Row(children: [Icon(Icons.sync), SizedBox(width: 8), Text(l10n.random)])),
+                  Tab(child: Row(children: [Icon(Icons.search), SizedBox(width: 8), Text(l10n.search)])),
                 ],
               ),
             ),
@@ -49,6 +52,7 @@ class UnsplashPanelPage extends StatelessWidget {
           ],
         ),
       );
+  }
 }
 
 class _RandomTab extends StatefulWidget {
@@ -60,26 +64,29 @@ class _RandomTabState extends State<_RandomTab> {
   bool enabled = true;
 
   @override
-  Widget build(BuildContext context) => GridView.count(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return GridView.count(
           shrinkWrap: true,
           crossAxisCount: 2,
           childAspectRatio: 16 / 9,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
           children: [
-            _randomCard("Landscape", AssetImage("assets/landscape.png"), autofocus: true),
-            _randomCard("Abstract", AssetImage("assets/abstract.png")),
-            _randomCard("Minimal", AssetImage("assets/minimal.png")),
-            _randomCard("Texture", AssetImage("assets/texture.png")),
-            _randomCard("Architecture", AssetImage("assets/architecture.png")),
-            _randomCard("Plant", AssetImage("assets/plant.png")),
-            _randomCard("Technology", AssetImage("assets/technology.png")),
-            _randomCard("Animal", AssetImage("assets/animal.png")),
-            _randomCard("Colorful", AssetImage("assets/colorful.png")),
-            _randomCard("Space", AssetImage("assets/space.png")),
+            _randomCard(l10n.landscape, "landscape wallpaper", AssetImage("assets/landscape.png"), autofocus: true),
+            _randomCard(l10n.abstract, "abstract wallpaper", AssetImage("assets/abstract.png")),
+            _randomCard(l10n.minimal, "minimal wallpaper", AssetImage("assets/minimal.png")),
+            _randomCard(l10n.texture, "texture wallpaper", AssetImage("assets/texture.png")),
+            _randomCard(l10n.architecture, "architecture wallpaper", AssetImage("assets/architecture.png")),
+            _randomCard(l10n.plant, "plant wallpaper", AssetImage("assets/plant.png")),
+            _randomCard(l10n.technology, "technology wallpaper", AssetImage("assets/technology.png")),
+            _randomCard(l10n.animal, "animal wallpaper", AssetImage("assets/animal.png")),
+            _randomCard(l10n.colorful, "colorful wallpaper", AssetImage("assets/colorful.png")),
+            _randomCard(l10n.space, "space wallpaper", AssetImage("assets/space.png")),
           ]);
+  }
 
-  Widget _randomCard(String text, AssetImage assetImage, {bool autofocus = false}) => Focus(
+  Widget _randomCard(String text, String query, AssetImage assetImage, {bool autofocus = false}) => Focus(
         canRequestFocus: false,
         child: Builder(
           builder: (context) => Stack(
@@ -94,7 +101,7 @@ class _RandomTabState extends State<_RandomTab> {
                     if (enabled) {
                       setState(() => enabled = false);
                       try {
-                        await context.read<WallpaperService>().randomFromUnsplash("${text.toLowerCase()} wallpaper");
+                        await context.read<WallpaperService>().randomFromUnsplash(query);
                       } finally {
                         setState(() => enabled = true);
                       }
@@ -157,7 +164,7 @@ class _SearchTabState extends State<_SearchTab> {
                 return KeyEventResult.ignored;
               },
               builder: (context) => TextField(
-                decoration: InputDecoration(labelText: "Search", isDense: true),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.search, isDense: true),
                 keyboardType: TextInputType.text,
                 onSubmitted: (value) async {
                   if (enabled) {

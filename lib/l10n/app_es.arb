@@ -1,0 +1,77 @@
+{
+  "@@locale": "es",
+  "loading": "Cargando...",
+  "settings": "Ajustes",
+  "applications": "Aplicaciones",
+  "categories": "Categorías",
+  "wallpaper": "Fondo de pantalla",
+  "androidSettings": "Ajustes de Android",
+  "language": "Idioma",
+  "systemDefault": "Predeterminado del sistema",
+  "use24HourTimeFormat": "Usar formato de hora de 24 horas",
+  "appCardHighlightAnimation": "Animación de resaltado de tarjetas",
+  "crashReporting": "Informes de fallos",
+  "crashReportingSubtitle": "Enviar informes de fallos automáticamente a través de Firebase Crashlytics.",
+  "analyticsReporting": "Informes de analíticas",
+  "analyticsReportingSubtitle": "Compartir datos de analíticas a través de Firebase Analytics.",
+  "aboutFLauncher": "Acerca de FLauncher",
+  "tvApplications": "Aplicaciones de TV",
+  "nonTvApplications": "Aplicaciones no TV",
+  "hiddenApplications": "Aplicaciones ocultas",
+  "addCategory": "Añadir categoría",
+  "renameCategory": "Renombrar categoría",
+  "name": "Nombre",
+  "mustNotBeEmpty": "No puede estar vacío",
+  "sort": "Orden",
+  "alphabetical": "Alfabético",
+  "manual": "Manual",
+  "type": "Tipo",
+  "row": "Fila",
+  "grid": "Cuadrícula",
+  "columnsCount": "Número de columnas",
+  "rowHeight": "Altura de fila",
+  "delete": "Eliminar",
+  "unsplash": "Unsplash",
+  "gradient": "Degradado",
+  "custom": "Personalizado",
+  "installFileExplorer": "Instala un explorador de archivos para poder elegir una imagen.",
+  "photoBy": "Foto de {username} en Unsplash",
+  "@photoBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "random": "Aleatorio",
+  "search": "Buscar",
+  "landscape": "Paisaje",
+  "abstract": "Abstracto",
+  "minimal": "Minimalista",
+  "texture": "Textura",
+  "architecture": "Arquitectura",
+  "plant": "Planta",
+  "technology": "Tecnología",
+  "animal": "Animal",
+  "colorful": "Colorido",
+  "space": "Espacio",
+  "open": "Abrir",
+  "reorder": "Reordenar",
+  "hide": "Ocultar",
+  "unhide": "Mostrar",
+  "removeFrom": "Quitar de {category}",
+  "@removeFrom": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "appInfo": "Información de la aplicación",
+  "uninstall": "Desinstalar",
+  "addTo": "Añadir a...",
+  "emptyCategory": "Esta categoría está vacía.",
+  "aboutSourceCode": "FLauncher es un launcher alternativo de código abierto para Android TV.\nCódigo fuente disponible en ",
+  "aboutLogoBy": "Logo de Katie ",
+  "aboutDesignBy": "diseño de "
+}

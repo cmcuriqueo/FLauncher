@@ -20,6 +20,7 @@ import 'package:flauncher/database.dart';
 import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/widgets/application_info_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -167,6 +168,8 @@ Future<void> _pumpWidgetWithProviders(
         ChangeNotifierProvider<AppsService>.value(value: appsService),
       ],
       builder: (_, __) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: ApplicationInfoPanel(
           category: category,
           application: application,

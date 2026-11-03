@@ -20,6 +20,7 @@ import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/settings/categories_panel_page.dart';
 import 'package:flauncher/widgets/settings/settings_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EmptyCategoryCard extends StatelessWidget {
   @override
@@ -42,7 +43,7 @@ class EmptyCategoryCard extends StatelessWidget {
                   Icon(Icons.add_rounded, color: Colors.white.withOpacity(0.8)),
                   SizedBox(height: 6),
                   Text(
-                    "This category is empty.",
+                    AppLocalizations.of(context)!.emptyCategory,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white.withOpacity(0.8)),
                   ),

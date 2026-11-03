@@ -1,0 +1,77 @@
+{
+  "@@locale": "en",
+  "loading": "Loading...",
+  "settings": "Settings",
+  "applications": "Applications",
+  "categories": "Categories",
+  "wallpaper": "Wallpaper",
+  "androidSettings": "Android settings",
+  "language": "Language",
+  "systemDefault": "System default",
+  "use24HourTimeFormat": "Use 24-hour time format",
+  "appCardHighlightAnimation": "App card highlight animation",
+  "crashReporting": "Crash Reporting",
+  "crashReportingSubtitle": "Automatically send crash reports through Firebase Crashlytics.",
+  "analyticsReporting": "Analytics Reporting",
+  "analyticsReportingSubtitle": "Share analytics data through Firebase Analytics.",
+  "aboutFLauncher": "About FLauncher",
+  "tvApplications": "TV Applications",
+  "nonTvApplications": "Non-TV Applications",
+  "hiddenApplications": "Hidden Applications",
+  "addCategory": "Add Category",
+  "renameCategory": "Rename Category",
+  "name": "Name",
+  "mustNotBeEmpty": "Must not be empty",
+  "sort": "Sort",
+  "alphabetical": "Alphabetical",
+  "manual": "Manual",
+  "type": "Type",
+  "row": "Row",
+  "grid": "Grid",
+  "columnsCount": "Columns count",
+  "rowHeight": "Row height",
+  "delete": "Delete",
+  "unsplash": "Unsplash",
+  "gradient": "Gradient",
+  "custom": "Custom",
+  "installFileExplorer": "Please install a file explorer in order to pick an image.",
+  "photoBy": "Photo by {username} on Unsplash",
+  "@photoBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "random": "Random",
+  "search": "Search",
+  "landscape": "Landscape",
+  "abstract": "Abstract",
+  "minimal": "Minimal",
+  "texture": "Texture",
+  "architecture": "Architecture",
+  "plant": "Plant",
+  "technology": "Technology",
+  "animal": "Animal",
+  "colorful": "Colorful",
+  "space": "Space",
+  "open": "Open",
+  "reorder": "Reorder",
+  "hide": "Hide",
+  "unhide": "Unhide",
+  "removeFrom": "Remove from {category}",
+  "@removeFrom": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "appInfo": "App info",
+  "uninstall": "Uninstall",
+  "addTo": "Add to...",
+  "emptyCategory": "This category is empty.",
+  "aboutSourceCode": "FLauncher is an open-source alternative launcher for Android TV.\nSource code available at ",
+  "aboutLogoBy": "Logo by Katie ",
+  "aboutDesignBy": "design by "
+}

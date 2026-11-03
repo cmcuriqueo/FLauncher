@@ -23,6 +23,7 @@ import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/settings/gradient_panel_page.dart';
 import 'package:flauncher/widgets/settings/unsplash_panel_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -30,9 +31,11 @@ class WallpaperPanelPage extends StatelessWidget {
   static const String routeName = "wallpaper_panel";
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
         children: [
-          Text("Wallpaper", style: Theme.of(context).textTheme.titleLarge),
+          Text(l10n.wallpaper, style: Theme.of(context).textTheme.titleLarge),
           Divider(),
           if (context.read<SettingsService>().unsplashEnabled)
             TextButton(
@@ -41,7 +44,7 @@ class WallpaperPanelPage extends StatelessWidget {
                 children: [
                   ImageIcon(AssetImage("assets/unsplash.png")),
                   Container(width: 8),
-                  Text("Unsplash", style: Theme.of(context).textTheme.bodyMedium),
+                  Text(l10n.unsplash, style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
               onPressed: () => Navigator.of(context).pushNamed(UnsplashPanelPage.routeName),
@@ -52,7 +55,7 @@ class WallpaperPanelPage extends StatelessWidget {
               children: [
                 Icon(Icons.gradient),
                 Container(width: 8),
-                Text("Gradient", style: Theme.of(context).textTheme.bodyMedium),
+                Text(l10n.gradient, style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
             onPressed: () => Navigator.of(context).pushNamed(GradientPanelPage.routeName),
@@ -62,7 +65,7 @@ class WallpaperPanelPage extends StatelessWidget {
               children: [
                 Icon(Icons.insert_drive_file_outlined),
                 Container(width: 8),
-                Text("Custom", style: Theme.of(context).textTheme.bodyMedium),
+                Text(l10n.custom, style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
             onPressed: () async {
@@ -76,7 +79,7 @@ class WallpaperPanelPage extends StatelessWidget {
                       children: [
                         Icon(Icons.error_outline, color: Colors.red),
                         SizedBox(width: 8),
-                        Text("Please install a file explorer in order to pick an image.")
+                        Text(l10n.installFileExplorer)
                       ],
                     ),
                   ),
@@ -99,7 +102,7 @@ class WallpaperPanelPage extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Photo by ${authorInfo["username"]} on Unsplash",
+                    l10n.photoBy(authorInfo["username"]),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 );
@@ -110,4 +113,5 @@ class WallpaperPanelPage extends StatelessWidget {
           ),
         ],
       );
+  }
 }

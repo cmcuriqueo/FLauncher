@@ -24,6 +24,7 @@ import 'package:flauncher/widgets/settings/categories_panel_page.dart';
 import 'package:flauncher/widgets/settings/flauncher_about_dialog.dart';
 import 'package:flauncher/widgets/settings/wallpaper_panel_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -31,11 +32,13 @@ class SettingsPanelPage extends StatelessWidget {
   static const String routeName = "settings_panel";
 
   @override
-  Widget build(BuildContext context) => Consumer<SettingsService>(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Consumer<SettingsService>(
         builder: (context, settingsService, __) => SingleChildScrollView(
           child: Column(
             children: [
-              Text("Settings", style: Theme.of(context).textTheme.titleLarge),
+              Text(l10n.settings, style: Theme.of(context).textTheme.titleLarge),
               Divider(),
               EnsureVisible(
                 alignment: 0.5,
@@ -44,7 +47,7 @@ class SettingsPanelPage extends StatelessWidget {
                     children: [
                       Icon(Icons.apps),
                       Container(width: 8),
-                      Text("Applications", style: Theme.of(context).textTheme.bodyMedium),
+                      Text(l10n.applications, style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
                   onPressed: () => Navigator.of(context).pushNamed(ApplicationsPanelPage.routeName),
@@ -55,7 +58,7 @@ class SettingsPanelPage extends StatelessWidget {
                   children: [
                     Icon(Icons.category),
                     Container(width: 8),
-                    Text("Categories", style: Theme.of(context).textTheme.bodyMedium),
+                    Text(l10n.categories, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
                 onPressed: () => Navigator.of(context).pushNamed(CategoriesPanelPage.routeName),
@@ -65,7 +68,7 @@ class SettingsPanelPage extends StatelessWidget {
                   children: [
                     Icon(Icons.wallpaper_outlined),
                     Container(width: 8),
-                    Text("Wallpaper", style: Theme.of(context).textTheme.bodyMedium),
+                    Text(l10n.wallpaper, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
                 onPressed: () => Navigator.of(context).pushNamed(WallpaperPanelPage.routeName),
@@ -76,24 +79,40 @@ class SettingsPanelPage extends StatelessWidget {
                   children: [
                     Icon(Icons.settings_outlined),
                     Container(width: 8),
-                    Text("Android settings", style: Theme.of(context).textTheme.bodyMedium),
+                    Text(l10n.androidSettings, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
                 onPressed: () => context.read<AppsService>().openSettings(),
               ),
               Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 14),
+                dense: true,
+                title: Text(l10n.language),
+                trailing: DropdownButton<String>(
+                  value: settingsService.languageCode,
+                  isDense: true,
+                  underline: SizedBox.shrink(),
+                  items: [
+                    DropdownMenuItem(value: null, child: Text(l10n.systemDefault)),
+                    DropdownMenuItem(value: "en", child: Text("English")),
+                    DropdownMenuItem(value: "es", child: Text("Español")),
+                  ],
+                  onChanged: (value) => settingsService.setLanguageCode(value),
+                ),
+              ),
               SwitchListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.use24HourTimeFormat,
                 onChanged: (value) => settingsService.setUse24HourTimeFormat(value),
-                title: Text("Use 24-hour time format"),
+                title: Text(l10n.use24HourTimeFormat),
                 dense: true,
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.appHighlightAnimationEnabled,
                 onChanged: (value) => settingsService.setAppHighlightAnimationEnabled(value),
-                title: Text("App card highlight animation"),
+                title: Text(l10n.appCardHighlightAnimation),
                 dense: true,
               ),
               Divider(),
@@ -101,17 +120,17 @@ class SettingsPanelPage extends StatelessWidget {
                 contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.crashReportsEnabled,
                 onChanged: (value) => settingsService.setCrashReportsEnabled(value),
-                title: Text("Crash Reporting"),
+                title: Text(l10n.crashReporting),
                 dense: true,
-                subtitle: Text("Automatically send crash reports through Firebase Crashlytics."),
+                subtitle: Text(l10n.crashReportingSubtitle),
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 14),
                 value: settingsService.analyticsEnabled,
                 onChanged: (value) => settingsService.setAnalyticsEnabled(value),
-                title: Text("Analytics Reporting"),
+                title: Text(l10n.analyticsReporting),
                 dense: true,
-                subtitle: Text("Share analytics data through Firebase Analytics."),
+                subtitle: Text(l10n.analyticsReportingSubtitle),
               ),
               Divider(),
               TextButton(
@@ -119,7 +138,7 @@ class SettingsPanelPage extends StatelessWidget {
                   children: [
                     Icon(Icons.info_outline),
                     Container(width: 8),
-                    Text("About FLauncher", style: Theme.of(context).textTheme.bodyMedium),
+                    Text(l10n.aboutFLauncher, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
                 onPressed: () => showDialog(
@@ -136,4 +155,5 @@ class SettingsPanelPage extends StatelessWidget {
           ),
         ),
       );
+  }
 }

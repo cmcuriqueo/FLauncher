@@ -24,6 +24,7 @@ import 'package:flauncher/widgets/settings/flauncher_about_dialog.dart';
 import 'package:flauncher/widgets/settings/settings_panel_page.dart';
 import 'package:flauncher/widgets/settings/wallpaper_panel_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -52,6 +53,7 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
@@ -70,6 +72,7 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
@@ -89,6 +92,7 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
@@ -109,6 +113,7 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
@@ -130,9 +135,11 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
@@ -152,9 +159,11 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
@@ -176,9 +185,11 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
@@ -201,10 +212,12 @@ void main() {
     when(settingsService.analyticsEnabled).thenReturn(false);
     when(settingsService.use24HourTimeFormat).thenReturn(false);
     when(settingsService.appHighlightAnimationEnabled).thenReturn(true);
+    when(settingsService.languageCode).thenReturn(null);
     PackageInfoPlatform.instance = _MockPackageInfoPlatform();
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
@@ -232,6 +245,8 @@ Future<void> _pumpWidgetWithProviders(
         ChangeNotifierProvider<AppsService>.value(value: appsService),
       ],
       builder: (_, __) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routes: {
           CategoriesPanelPage.routeName: (_) => Container(key: Key("CategoriesPanelPage")),
           WallpaperPanelPage.routeName: (_) => Container(key: Key("WallpaperPanelPage")),
