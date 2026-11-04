@@ -44,6 +44,10 @@ abstract class TvTokens {
   static const Duration focusDuration = Duration(milliseconds: 180);
   static const Curve focusCurve = Curves.decelerate;
 
+  // Auto-scroll triggered by focus changes: fast so navigation never lags.
+  static const Duration scrollDuration = Duration(milliseconds: 100);
+  static const Curve scrollCurve = Curves.easeInOut;
+
   static BorderRadius get cardBorderRadius => BorderRadius.circular(radiusCard);
 
   /// Scale transform applied on focus. Runs at the paint layer only: it must

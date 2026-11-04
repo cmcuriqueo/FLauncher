@@ -72,6 +72,13 @@ class WallpaperService extends ChangeNotifier {
     }
   }
 
+  Future<void> setLocalWallpaper(Uint8List bytes) async {
+    await _wallpaperFile.writeAsBytes(bytes);
+    _wallpaper = bytes;
+    await _settingsService.setUnsplashAuthor(null);
+    notifyListeners();
+  }
+
   Future<void> randomFromUnsplash(String query) async {
     final photo = await _unsplashService.randomPhoto(query);
     final bytes = await _unsplashService.downloadPhoto(photo);

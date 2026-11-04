@@ -17,6 +17,7 @@
  */
 
 import 'package:flauncher/providers/wallpaper_service.dart';
+import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/unsplash_service.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
 import 'package:flauncher/widgets/glass.dart';
@@ -69,7 +70,7 @@ class _RandomTabState extends State<_RandomTab> {
     return GridView.count(
           shrinkWrap: true,
           crossAxisCount: 2,
-          childAspectRatio: 16 / 9,
+          childAspectRatio: TvTokens.heroAspectRatio,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
           children: [

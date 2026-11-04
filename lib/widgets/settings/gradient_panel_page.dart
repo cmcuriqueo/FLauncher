@@ -17,6 +17,7 @@
  */
 
 import 'package:flauncher/gradients.dart';
+import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
 import 'package:flauncher/widgets/glass.dart';
@@ -71,7 +72,7 @@ class GradientPanelPage extends StatelessWidget {
                         decoration: TextDecoration.underline,
                         color: Focus.of(context).hasFocus ? Colors.white : null,
                       ),
-                  duration: Duration(milliseconds: 150),
+                  duration: TvTokens.focusDuration,
                   child: Text(fLauncherGradient.name, overflow: TextOverflow.ellipsis),
                 ),
               ),

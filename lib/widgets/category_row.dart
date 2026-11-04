@@ -21,6 +21,7 @@ import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/widgets/app_card.dart';
 import 'package:flauncher/widgets/empty_category_card.dart';
 import 'package:flauncher/widgets/ensure_visible.dart';
+import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,7 @@ class CategoryRow extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: AspectRatio(
-                aspectRatio: 16 / 9,
+                aspectRatio: TvTokens.heroAspectRatio,
                 child: EmptyCategoryCard(),
               ),
             ),

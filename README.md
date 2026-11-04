@@ -1,17 +1,17 @@
-# FLauncher
+# FLauncher (fork)
+
 FLauncher is an open-source alternative launcher for Android TV, built with [Flutter](https://flutter.dev).
 
 The project is still at an early development stage and may be unstable. It currently lacks testing on real devices and has only been tested on Chromecast with Google TV.
 
-<a href="https://play.google.com/store/apps/details?id=me.efesser.flauncher">
- <img alt="Get it on Google Play" width="200" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/>
-</a>
+## Origin
+This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) by Étienne Fesser. All credit for the original project goes to its author. This fork adds a glass-style UI redesign, a TV design token system, and a bundled local wallpaper gallery.
 
 ## Features
 - [x] No ads
 - [x] Customizable categories
 - [x] Manually reorder apps within categories
-- [x] Wallpaper support
+- [x] Wallpaper support (Unsplash, gradients, bundled local wallpapers, custom image)
 - [x] Open "Android Settings"
 - [x] Open "App info"
 - [x] Uninstall app
@@ -62,5 +62,3 @@ On Chromecast with Google TV (maybe others), the "YouTube" remote button will st
 Because Android's `WallpaperManager` is not available on some Android TV devices, FLauncher implements its own wallpaper management method.
 
 Please note that changing wallpaper requires a file explorer to be installed on the device in order to pick a file.
-
-<a href="https://www.buymeacoffee.com/etienn01" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="200"></a>
