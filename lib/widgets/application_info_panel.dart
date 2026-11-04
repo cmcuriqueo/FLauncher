@@ -141,6 +141,22 @@ class ApplicationInfoPanel extends StatelessWidget {
             TextButton(
               child: Row(
                 children: [
+                  Icon(Icons.stop_circle_outlined),
+                  Container(width: 8),
+                  Text("Force stop", style: Theme.of(context).textTheme.bodyMedium),
+                ],
+              ),
+              onPressed: () async {
+                await context.read<AppsService>().forceStopApplication(application);
+                Navigator.of(context).pop(ApplicationInfoPanelResult.none);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("${application.name} force-stopped")),
+                );
+              },
+            ),
+            TextButton(
+              child: Row(
+                children: [
                   Icon(Icons.delete_outlined),
                   Container(width: 8),
                   Text(l10n.uninstall, style: Theme.of(context).textTheme.bodyMedium),
