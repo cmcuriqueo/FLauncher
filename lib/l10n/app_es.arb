@@ -1,6 +1,7 @@
 {
   "@@locale": "es",
   "loading": "Cargando...",
+  "favorites": "Favoritos",
   "settings": "Ajustes",
   "applications": "Aplicaciones",
   "categories": "Categorías",

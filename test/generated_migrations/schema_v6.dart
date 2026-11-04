@@ -1,0 +1,140 @@
+// GENERATED CODE, DO NOT EDIT BY HAND.
+//@dart=2.12
+import 'package:drift/drift.dart';
+
+class Apps extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Apps(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<String> packageName = GeneratedColumn<String>('package_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> name =
+      GeneratedColumn<String>('name', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> version =
+      GeneratedColumn<String>('version', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<Uint8List> banner =
+      GeneratedColumn<Uint8List>('banner', aliasedName, true, type: DriftSqlType.blob, requiredDuringInsert: false);
+  late final GeneratedColumn<Uint8List> icon =
+      GeneratedColumn<Uint8List>('icon', aliasedName, true, type: DriftSqlType.blob, requiredDuringInsert: false);
+  late final GeneratedColumn<bool> hidden = GeneratedColumn<bool>('hidden', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("hidden" IN (0, 1))'),
+      defaultValue: Constant(false));
+  late final GeneratedColumn<bool> sideloaded = GeneratedColumn<bool>('sideloaded', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("sideloaded" IN (0, 1))'),
+      defaultValue: Constant(false));
+  late final GeneratedColumn<bool> favorite = GeneratedColumn<bool>('favorite', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("favorite" IN (0, 1))'),
+      defaultValue: Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [packageName, name, version, banner, icon, hidden, sideloaded, favorite];
+  @override
+  String get aliasedName => _alias ?? 'apps';
+  @override
+  String get actualTableName => 'apps';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {packageName};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  Apps createAlias(String alias) {
+    return Apps(attachedDatabase, alias);
+  }
+}
+
+class Categories extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Categories(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  late final GeneratedColumn<String> name =
+      GeneratedColumn<String>('name', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<int> sort = GeneratedColumn<int>('sort', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: Constant(0));
+  late final GeneratedColumn<int> type = GeneratedColumn<int>('type', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: Constant(0));
+  late final GeneratedColumn<int> rowHeight = GeneratedColumn<int>('row_height', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: Constant(110));
+  late final GeneratedColumn<int> columnsCount = GeneratedColumn<int>('columns_count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultValue: Constant(6));
+  late final GeneratedColumn<int> order =
+      GeneratedColumn<int>('order', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, name, sort, type, rowHeight, columnsCount, order];
+  @override
+  String get aliasedName => _alias ?? 'categories';
+  @override
+  String get actualTableName => 'categories';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  Categories createAlias(String alias) {
+    return Categories(attachedDatabase, alias);
+  }
+}
+
+class AppsCategories extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  AppsCategories(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>('category_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'REFERENCES categories(id) ON DELETE CASCADE');
+  late final GeneratedColumn<String> appPackageName = GeneratedColumn<String>('app_package_name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'REFERENCES apps(package_name) ON DELETE CASCADE');
+  late final GeneratedColumn<int> order =
+      GeneratedColumn<int>('order', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [categoryId, appPackageName, order];
+  @override
+  String get aliasedName => _alias ?? 'apps_categories';
+  @override
+  String get actualTableName => 'apps_categories';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {categoryId, appPackageName};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  AppsCategories createAlias(String alias) {
+    return AppsCategories(attachedDatabase, alias);
+  }
+}
+
+class DatabaseAtV6 extends GeneratedDatabase {
+  DatabaseAtV6(QueryExecutor e) : super(e);
+  late final Apps apps = Apps(this);
+  late final Categories categories = Categories(this);
+  late final AppsCategories appsCategories = AppsCategories(this);
+  @override
+  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  @override
+  List<DatabaseSchemaEntity> get allSchemaEntities => [apps, categories, appsCategories];
+  @override
+  int get schemaVersion => 6;
+}

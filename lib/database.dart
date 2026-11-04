@@ -41,6 +41,8 @@ class Apps extends Table {
 
   BoolColumn get sideloaded => boolean().withDefault(Constant(false))();
 
+  BoolColumn get favorite => boolean().withDefault(Constant(false))();
+
   @override
   Set<Column> get primaryKey => {packageName};
 }
@@ -100,7 +102,7 @@ class FLauncherDatabase extends _$FLauncherDatabase {
   FLauncherDatabase.inMemory() : super(LazyDatabase(() => NativeDatabase.memory()));
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -125,6 +127,9 @@ class FLauncherDatabase extends _$FLauncherDatabase {
           if (from <= 4 && from != 1) {
             await migrator.addColumn(apps, apps.sideloaded);
           }
+          if (from <= 5) {
+            await migrator.addColumn(apps, apps.favorite);
+          }
         },
         beforeOpen: (openingDetails) async {
           await customStatement('PRAGMA foreign_keys = ON;');
@@ -141,6 +146,11 @@ class FLauncherDatabase extends _$FLauncherDatabase {
 
   Future<void> updateApp(String packageName, AppsCompanion value) =>
       (update(apps)..where((tbl) => tbl.packageName.equals(packageName))).write(value);
+
+  Future<List<App>> listFavoriteApplications() => (select(apps)
+        ..where((tbl) => tbl.favorite.equals(true) & tbl.hidden.equals(false))
+        ..orderBy([(tbl) => OrderingTerm.asc(tbl.name.lower())]))
+      .get();
 
   Future<void> deleteApps(List<String> packageNames) =>
       (delete(apps)..where((tbl) => tbl.packageName.isIn(packageNames))).go();

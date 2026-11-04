@@ -52,6 +52,7 @@ App fakeApp({
   Uint8List? icon,
   bool hidden = false,
   bool sideloaded = false,
+  bool favorite = false,
 }) =>
     App(
       packageName: packageName,
@@ -61,6 +62,7 @@ App fakeApp({
       icon: icon,
       hidden: hidden,
       sideloaded: sideloaded,
+      favorite: favorite,
     );
 
 Category fakeCategory({

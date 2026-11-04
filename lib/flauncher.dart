@@ -26,6 +26,7 @@ import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/widgets/apps_grid.dart';
 import 'package:flauncher/widgets/category_row.dart';
+import 'package:flauncher/widgets/favorites_row.dart';
 import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/settings/settings_panel.dart';
 import 'package:flauncher/widgets/time_widget.dart';
@@ -50,7 +51,7 @@ class FLauncher extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(TvTokens.overscanHorizontal, 8, TvTokens.overscanHorizontal, 0),
                 child: Consumer<AppsService>(
                   builder: (context, appsService, _) => appsService.initialized
-                      ? SingleChildScrollView(child: _categories(appsService.categoriesWithApps))
+                      ? SingleChildScrollView(child: _content(appsService))
                       : _emptyState(context),
                 ),
               ),
@@ -59,28 +60,41 @@ class FLauncher extends StatelessWidget {
         ),
       );
 
-  Widget _categories(List<CategoryWithApps> categoriesWithApps) => Column(
-        children: categoriesWithApps.map((categoryWithApps) {
-          switch (categoryWithApps.category.type) {
-            case CategoryType.row:
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: CategoryRow(
-                    key: Key(categoryWithApps.category.id.toString()),
-                    category: categoryWithApps.category,
-                    applications: categoryWithApps.applications),
-              );
-            case CategoryType.grid:
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: AppsGrid(
-                    key: Key(categoryWithApps.category.id.toString()),
-                    category: categoryWithApps.category,
-                    applications: categoryWithApps.applications),
-              );
-          }
-        }).toList(),
-      );
+  Widget _content(AppsService appsService) {
+    final favorites = appsService.favoriteApplications;
+    return Column(
+      children: [
+        if (favorites.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: FavoritesRow(key: Key("favorites"), applications: favorites),
+          ),
+        ..._categoryWidgets(appsService.categoriesWithApps),
+      ],
+    );
+  }
+
+  List<Widget> _categoryWidgets(List<CategoryWithApps> categoriesWithApps) =>
+      categoriesWithApps.map((categoryWithApps) {
+        switch (categoryWithApps.category.type) {
+          case CategoryType.row:
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: CategoryRow(
+                  key: Key(categoryWithApps.category.id.toString()),
+                  category: categoryWithApps.category,
+                  applications: categoryWithApps.applications),
+            );
+          case CategoryType.grid:
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: AppsGrid(
+                  key: Key(categoryWithApps.category.id.toString()),
+                  category: categoryWithApps.category,
+                  applications: categoryWithApps.applications),
+            );
+        }
+      }).toList();
 
   AppBar _appBar(BuildContext context) => AppBar(
         toolbarHeight: 72,
