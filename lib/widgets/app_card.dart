@@ -20,6 +20,7 @@ import 'dart:async';
 
 import 'package:flauncher/database.dart';
 import 'package:flauncher/providers/apps_service.dart';
+import 'package:flauncher/providers/focused_app_service.dart';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/widgets/application_info_panel.dart';
@@ -103,6 +104,13 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
         onLongPress: (key) => _onLongPress(context, key),
         builder: (context) {
           final focused = Focus.of(context).hasFocus;
+          if (focused) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) {
+                context.read<FocusedAppService>().setFocusedApp(widget.application);
+              }
+            });
+          }
           return AspectRatio(
             aspectRatio: TvTokens.heroAspectRatio,
             child: AnimatedContainer(

@@ -18,6 +18,7 @@
 
 import 'package:flauncher/database.dart';
 import 'package:flauncher/providers/apps_service.dart';
+import 'package:flauncher/providers/focused_app_service.dart';
 import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/widgets/application_info_panel.dart';
 import 'package:flauncher/widgets/focus_keyboard_listener.dart';
@@ -38,6 +39,13 @@ class FavoriteAppCard extends StatelessWidget {
         onLongPress: (key) => _onLongPress(context, key),
         builder: (context) {
           final focused = Focus.of(context).hasFocus;
+          if (focused) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) {
+                context.read<FocusedAppService>().setFocusedApp(application);
+              }
+            });
+          }
           return SizedBox(
             width: TvTokens.favoriteIconSize,
             height: TvTokens.favoriteIconSize,

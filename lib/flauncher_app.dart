@@ -21,6 +21,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flauncher/actions.dart';
 import 'package:flauncher/providers/apps_service.dart';
+import 'package:flauncher/providers/focused_app_service.dart';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
@@ -66,6 +67,7 @@ class FLauncherApp extends StatelessWidget {
                   SettingsService(_sharedPreferences, _firebaseCrashlytics, _firebaseAnalytics, _firebaseRemoteConfig),
               lazy: false),
           ChangeNotifierProvider(create: (_) => AppsService(_fLauncherChannel, _fLauncherDatabase)),
+          ChangeNotifierProvider(create: (_) => FocusedAppService()),
           ChangeNotifierProxyProvider<SettingsService, WallpaperService>(
               create: (_) => WallpaperService(_imagePicker, _fLauncherChannel, _unsplashService),
               update: (_, settingsService, wallpaperService) => wallpaperService!..settingsService = settingsService),
