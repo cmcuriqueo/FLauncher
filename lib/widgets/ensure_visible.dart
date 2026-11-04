@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'package:flauncher/tv_theme.dart';
 import 'package:flutter/material.dart';
 
 class EnsureVisible extends StatelessWidget {
@@ -32,8 +33,8 @@ class EnsureVisible extends StatelessWidget {
             Scrollable.ensureVisible(
               context,
               alignment: alignment,
-              duration: Duration(milliseconds: 100),
-              curve: Curves.easeInOut,
+              duration: TvTokens.scrollDuration,
+              curve: TvTokens.scrollCurve,
             );
           }
         },

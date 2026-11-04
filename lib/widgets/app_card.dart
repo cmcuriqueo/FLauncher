@@ -25,6 +25,7 @@ import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/widgets/application_info_panel.dart';
 import 'package:flauncher/widgets/color_helpers.dart';
 import 'package:flauncher/widgets/focus_keyboard_listener.dart';
+import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/widgets/glass.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
@@ -103,15 +104,15 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
         builder: (context) {
           final focused = Focus.of(context).hasFocus;
           return AspectRatio(
-            aspectRatio: 16 / 9,
+            aspectRatio: TvTokens.heroAspectRatio,
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 220),
-              curve: Curves.easeOutCubic,
+              duration: TvTokens.focusDuration,
+              curve: TvTokens.focusCurve,
               transformAlignment: Alignment.center,
               transform: _scaleTransform(focused),
               decoration: BoxDecoration(
                 borderRadius: _borderRadius,
-                boxShadow: focused ? Glass.focusShadow : Glass.restShadow,
+                boxShadow: focused ? TvTokens.focusShadow : TvTokens.restShadow,
               ),
               child: Material(
                 color: Glass.fill(0.10),
@@ -160,8 +161,8 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
                     if (_moving) ..._arrows(),
                     IgnorePointer(
                       child: AnimatedOpacity(
-                        duration: Duration(milliseconds: 220),
-                        curve: Curves.easeInOut,
+                        duration: TvTokens.focusDuration,
+                        curve: TvTokens.focusCurve,
                         opacity: focused ? 0 : 0.14,
                         child: Container(color: Colors.black),
                       ),
@@ -186,7 +187,7 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
         },
       );
 
-  static final BorderRadius _borderRadius = BorderRadius.circular(Glass.radiusMedium);
+  static final BorderRadius _borderRadius = TvTokens.cardBorderRadius;
 
   Widget _focusRing(bool focused) => Selector<SettingsService, bool>(
         selector: (_, settingsService) => settingsService.appHighlightAnimationEnabled,
@@ -206,22 +207,19 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
 
   Widget _ring(bool focused, Color color) => IgnorePointer(
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInOut,
+          duration: TvTokens.focusDuration,
+          curve: TvTokens.focusCurve,
           decoration: BoxDecoration(
             borderRadius: _borderRadius,
             border: Border.all(
               color: focused ? color.withOpacity(0.95) : Glass.stroke(0.12),
-              width: focused ? 2.5 : 1,
+              width: focused ? TvTokens.focusStrokeWidth : 1,
             ),
           ),
         ),
       );
 
-  Matrix4 _scaleTransform(bool focused) {
-    final scale = !_moving && focused ? 1.08 : 1.0;
-    return Matrix4.diagonal3Values(scale, scale, 1.0);
-  }
+  Matrix4 _scaleTransform(bool focused) => TvTokens.focusTransform(!_moving && focused);
 
   List<Widget> _arrows() => [
         _arrow(Alignment.centerLeft, Icons.keyboard_arrow_left),
@@ -251,7 +249,7 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
   KeyEventResult _onPressed(BuildContext context, LogicalKeyboardKey? key) {
     if (_moving) {
       WidgetsBinding.instance.addPostFrameCallback((_) => Scrollable.ensureVisible(context,
-          alignment: 0.1, duration: Duration(milliseconds: 100), curve: Curves.easeInOut));
+          alignment: 0.1, duration: TvTokens.scrollDuration, curve: TvTokens.scrollCurve));
       if (key == LogicalKeyboardKey.arrowLeft) {
         widget.onMove(AxisDirection.left);
       } else if (key == LogicalKeyboardKey.arrowUp) {
