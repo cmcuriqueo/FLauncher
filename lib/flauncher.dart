@@ -26,6 +26,7 @@ import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/tv_theme.dart';
 import 'package:flauncher/widgets/apps_grid.dart';
 import 'package:flauncher/widgets/category_row.dart';
+import 'package:flauncher/widgets/contextual_hero.dart';
 import 'package:flauncher/widgets/favorites_row.dart';
 import 'package:flauncher/widgets/glass.dart';
 import 'package:flauncher/widgets/settings/settings_panel.dart';
@@ -64,6 +65,10 @@ class FLauncher extends StatelessWidget {
     final favorites = appsService.favoriteApplications;
     return Column(
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: ContextualHero(key: Key("contextual-hero")),
+        ),
         if (favorites.isNotEmpty)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
