@@ -32,11 +32,14 @@ class AppsService extends ChangeNotifier {
   bool _initialized = false;
 
   List<App> _applications = [];
+  List<App> _favoriteApplications = [];
   List<CategoryWithApps> _categoriesWithApps = [];
 
   bool get initialized => _initialized;
 
   List<App> get applications => UnmodifiableListView(_applications);
+
+  List<App> get favoriteApplications => UnmodifiableListView(_favoriteApplications);
 
   List<CategoryWithApps> get categoriesWithApps => _categoriesWithApps
       .map((item) => CategoryWithApps(item.category, UnmodifiableListView(item.applications)))
@@ -66,6 +69,7 @@ class AppsService extends ChangeNotifier {
       }
       _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
       _applications = await _database.listApplications();
+      _favoriteApplications = await _database.listFavoriteApplications();
       notifyListeners();
     });
     _initialized = true;
@@ -137,6 +141,7 @@ class AppsService extends ChangeNotifier {
 
       _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
       _applications = await _database.listApplications();
+      _favoriteApplications = await _database.listFavoriteApplications();
     });
     if (shouldNotifyListeners) {
       notifyListeners();
@@ -150,6 +155,14 @@ class AppsService extends ChangeNotifier {
   Future<void> uninstallApp(App app) => _fLauncherChannel.uninstallApp(app.packageName);
 
   Future<void> forceStopApplication(App app) => _fLauncherChannel.forceStopApp(app.packageName);
+
+  Future<void> toggleFavorite(App app) async {
+    await _database.updateApp(app.packageName, AppsCompanion(favorite: Value(!app.favorite)));
+    _applications = await _database.listApplications();
+    _favoriteApplications = await _database.listFavoriteApplications();
+    _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+    notifyListeners();
+  }
 
   Future<void> openSettings() => _fLauncherChannel.openSettings();
 

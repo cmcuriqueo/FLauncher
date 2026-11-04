@@ -20,6 +20,7 @@ This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) 
 - [x] Support for non-TV (sideloaded) apps
 - [x] Navigation sound feedback
 - [x] Force stop app
+- [x] Favorites row
 
 ## Screenshots
 |  |  |  |
