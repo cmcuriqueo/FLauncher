@@ -27,7 +27,7 @@ con información contextual o multimedia del elemento resaltado en la fila infer
 - [x] 3. Reportar foco desde `AppCard` y `FavoriteAppCard` (post-frame).
 - [x] 4. Widget `ContextualHero` + montarlo en `flauncher.dart`.
 - [x] 5. `flutter analyze` + format 120.
-- [ ] 6. README si aplica + commit, push, PR contra `master`.
+- [x] 6. README + commit, push, PR: https://github.com/cmcuriqueo/FLauncher/pull/7
 
 ## Riesgos / notas
 - No notificar durante build: usar `addPostFrameCallback`.
