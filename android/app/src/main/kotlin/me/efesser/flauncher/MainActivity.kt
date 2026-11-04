@@ -18,6 +18,7 @@
 
 package me.efesser.flauncher
 
+import android.app.ActivityManager
 import android.content.Intent
 import android.content.Intent.*
 import android.content.pm.*
@@ -54,6 +55,7 @@ class MainActivity : FlutterActivity() {
                 "openSettings" -> result.success(openSettings())
                 "openAppInfo" -> result.success(openAppInfo(call.arguments as String))
                 "uninstallApp" -> result.success(uninstallApp(call.arguments as String))
+                "forceStopApp" -> result.success(forceStopApp(call.arguments as String))
                 "isDefaultLauncher" -> result.success(isDefaultLauncher())
                 "checkForGetContentAvailability" -> result.success(checkForGetContentAvailability())
                 "startAmbientMode" -> result.success(startAmbientMode())
@@ -179,6 +181,14 @@ class MainActivity : FlutterActivity() {
         Intent(ACTION_DELETE)
                 .setData(Uri.fromParts("package", packageName, null))
                 .let(::startActivity)
+        true
+    } catch (e: Exception) {
+        false
+    }
+
+    private fun forceStopApp(packageName: String) = try {
+        val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        activityManager.killBackgroundProcesses(packageName)
         true
     } catch (e: Exception) {
         false
