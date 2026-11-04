@@ -19,7 +19,7 @@ This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) 
 - [x] Switch between row and grid for categories
 - [x] Support for non-TV (sideloaded) apps
 - [x] Navigation sound feedback
-- [ ] Force stop app
+- [x] Force stop app
 
 ## Screenshots
 |  |  |  |
