@@ -48,5 +48,6 @@ app.*.map.json
 android/app/google-services.json
 coverage/
 
-# Script local de desarrollo
+# Scripts locales de desarrollo
 tv.sh
+scripts/run_emulator.sh
