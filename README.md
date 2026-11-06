@@ -11,7 +11,7 @@ This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) 
 - [x] No ads
 - [x] Customizable categories
 - [x] Manually reorder apps within categories
-- [x] Wallpaper support (Unsplash, gradients, bundled local wallpapers, custom image)
+- [x] Wallpaper support (Unsplash, gradients, bundled local wallpapers, online gallery from git repo, custom image)
 - [x] Open "Android Settings"
 - [x] Open "App info"
 - [x] Uninstall app
