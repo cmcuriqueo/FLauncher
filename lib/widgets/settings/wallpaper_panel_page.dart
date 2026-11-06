@@ -21,7 +21,6 @@ import 'dart:convert';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/widgets/settings/gradient_panel_page.dart';
-import 'package:flauncher/widgets/settings/local_wallpaper_panel_page.dart';
 import 'package:flauncher/widgets/settings/repo_wallpaper_panel_page.dart';
 import 'package:flauncher/widgets/settings/unsplash_panel_page.dart';
 import 'package:flutter/material.dart';
@@ -61,16 +60,6 @@ class WallpaperPanelPage extends StatelessWidget {
             ],
           ),
           onPressed: () => Navigator.of(context).pushNamed(GradientPanelPage.routeName),
-        ),
-        TextButton(
-          child: Row(
-            children: [
-              Icon(Icons.photo_library_outlined),
-              Container(width: 8),
-              Text("Local", style: Theme.of(context).textTheme.bodyMedium),
-            ],
-          ),
-          onPressed: () => Navigator.of(context).pushNamed(LocalWallpaperPanelPage.routeName),
         ),
         TextButton(
           child: Row(

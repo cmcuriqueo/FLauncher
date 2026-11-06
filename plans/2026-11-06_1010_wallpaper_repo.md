@@ -33,6 +33,9 @@ vía `raw.githubusercontent.com`.
 
 ## Riesgos / notas
 - El repo ya existe: https://github.com/cmcuriqueo/flauncher-wallpapers
-  (10 wallpapers, 328 KB, manifest v1).
+  (5 wallpapers 4K JPG, manifest v1).
 - No se tocó `WallpaperService`: se reusa `setLocalWallpaper(bytes)`.
 - Agregar wallpapers = pushear imagen + entrada al manifest del repo.
+- Se eliminó la galería "Local" bundleada (PNGs sub-4K): página, ruta y botón.
+  Los PNGs de `assets/` se conservan porque el panel de Unsplash los usa
+  como thumbnails de categorías (y `logo.png`/`unsplash.png` para UI).
