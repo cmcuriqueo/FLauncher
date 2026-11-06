@@ -30,7 +30,7 @@ y terminar de pulir strings hardcodeados del panel de info de app.
 - [x] 4. Keys l10n: `addToFavorites`, `removeFromFavorites`, `forceStop`,
   `forceStopped` (en + es) y regen.
 - [x] 5. `flutter analyze` + format 120 + tests.
-- [ ] 6. README + commit, push, PR.
+- [x] 6. README + commit, push, PR: https://github.com/cmcuriqueo/FLauncher/pull/8
 
 ## Riesgos / notas
 - No usar BackdropFilter por card: en TV hardware el costo es alto; el efecto
