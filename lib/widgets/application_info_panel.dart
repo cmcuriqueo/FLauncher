@@ -94,7 +94,7 @@ class ApplicationInfoPanel extends StatelessWidget {
               children: [
                 Icon(application.favorite ? Icons.star : Icons.star_outline),
                 Container(width: 8),
-                Text(application.favorite ? "Remove from favorites" : "Add to favorites",
+                Text(application.favorite ? l10n.removeFromFavorites : l10n.addToFavorites,
                     style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
@@ -157,14 +157,14 @@ class ApplicationInfoPanel extends StatelessWidget {
               children: [
                 Icon(Icons.stop_circle_outlined),
                 Container(width: 8),
-                Text("Force stop", style: Theme.of(context).textTheme.bodyMedium),
+                Text(l10n.forceStop, style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
             onPressed: () async {
               await context.read<AppsService>().forceStopApplication(application);
               Navigator.of(context).pop(ApplicationInfoPanelResult.none);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("${application.name} force-stopped")),
+                SnackBar(content: Text(l10n.forceStopped(application.name))),
               );
             },
           ),

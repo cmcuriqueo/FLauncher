@@ -75,6 +75,19 @@ class FavoriteAppCard extends StatelessWidget {
                         child: Ink.image(image: MemoryImage(application.icon!)),
                       ),
                     ),
+                    SpecularHighlight(
+                      borderRadius: TvTokens.cardBorderRadius,
+                      opacity: focused ? 1 : 0.5,
+                      duration: TvTokens.focusDuration,
+                    ),
+                    IgnorePointer(
+                      child: AnimatedOpacity(
+                        duration: TvTokens.focusDuration,
+                        curve: TvTokens.focusCurve,
+                        opacity: focused ? 0 : 0.14,
+                        child: Container(color: Colors.black),
+                      ),
+                    ),
                     _ring(focused),
                   ],
                 ),
