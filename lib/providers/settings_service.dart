@@ -32,6 +32,8 @@ const _gradientUuidKey = "gradient_uuid";
 const _unsplashEnabledKey = "unsplash_enabled";
 const _unsplashAuthorKey = "unsplash_author";
 const _languageCodeKey = "language_code";
+const _recentPackagesKey = "recent_packages";
+const _maxRecentPackages = 5;
 
 class SettingsService extends ChangeNotifier {
   final SharedPreferences _sharedPreferences;
@@ -55,6 +57,9 @@ class SettingsService extends ChangeNotifier {
   String? get unsplashAuthor => _sharedPreferences.getString(_unsplashAuthorKey);
 
   String? get languageCode => _sharedPreferences.getString(_languageCodeKey);
+
+  /// Most recently launched package names, latest first.
+  List<String> get recentPackages => _sharedPreferences.getStringList(_recentPackagesKey) ?? [];
 
   SettingsService(
     this._sharedPreferences,
@@ -115,6 +120,13 @@ class SettingsService extends ChangeNotifier {
     } else {
       await _sharedPreferences.setString(_languageCodeKey, value);
     }
+    notifyListeners();
+  }
+
+  Future<void> addRecentPackage(String packageName) async {
+    final recents = recentPackages..remove(packageName);
+    recents.insert(0, packageName);
+    await _sharedPreferences.setStringList(_recentPackagesKey, recents.take(_maxRecentPackages).toList());
     notifyListeners();
   }
 

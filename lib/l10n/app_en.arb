@@ -80,6 +80,8 @@
   },
   "addToFavorites": "Add to favorites",
   "removeFromFavorites": "Remove from favorites",
+  "continueWatching": "Continue watching",
+  "recent": "Recent",
   "uninstall": "Uninstall",
   "addTo": "Add to...",
   "emptyCategory": "This category is empty.",

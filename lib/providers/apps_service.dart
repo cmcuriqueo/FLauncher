@@ -22,6 +22,7 @@ import 'dart:collection';
 import 'package:drift/drift.dart';
 import 'package:flauncher/database.dart';
 import 'package:flauncher/flauncher_channel.dart';
+import 'package:flauncher/providers/settings_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class AppsService extends ChangeNotifier {
   final FLauncherChannel _fLauncherChannel;
   final FLauncherDatabase _database;
   bool _initialized = false;
+  SettingsService? _settingsService;
+
+  set settingsService(SettingsService settingsService) => _settingsService = settingsService;
 
   List<App> _applications = [];
   List<App> _favoriteApplications = [];
@@ -148,7 +152,10 @@ class AppsService extends ChangeNotifier {
     }
   }
 
-  Future<void> launchApp(App app) => _fLauncherChannel.launchApp(app.packageName);
+  Future<void> launchApp(App app) async {
+    await _fLauncherChannel.launchApp(app.packageName);
+    await _settingsService?.addRecentPackage(app.packageName);
+  }
 
   Future<void> openAppInfo(App app) => _fLauncherChannel.openAppInfo(app.packageName);
 
