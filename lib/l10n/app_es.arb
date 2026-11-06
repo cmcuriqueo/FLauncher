@@ -69,6 +69,17 @@
     }
   },
   "appInfo": "Información de la aplicación",
+  "forceStop": "Forzar detención",
+  "forceStopped": "{app} detenida forzosamente",
+  "@forceStopped": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "addToFavorites": "Añadir a favoritos",
+  "removeFromFavorites": "Quitar de favoritos",
   "uninstall": "Desinstalar",
   "addTo": "Añadir a...",
   "emptyCategory": "Esta categoría está vacía.",

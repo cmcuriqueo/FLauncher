@@ -53,6 +53,41 @@ abstract class Glass {
       );
 }
 
+/// Top-edge specular highlight, the "liquid" sheen of glass surfaces.
+/// Cheap alternative to per-card BackdropFilter: pure gradient, animatable
+/// opacity for focus states. Always wrapped in IgnorePointer.
+class SpecularHighlight extends StatelessWidget {
+  final BorderRadius borderRadius;
+  final double opacity;
+  final Duration duration;
+
+  const SpecularHighlight({
+    Key? key,
+    required this.borderRadius,
+    this.opacity = 1,
+    this.duration = Duration.zero,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+        child: AnimatedOpacity(
+          duration: duration,
+          opacity: opacity,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: borderRadius,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment(0, 0.6),
+                colors: [Glass.fill(0.18), Glass.fill(0.04), Glass.fill(0)],
+                stops: [0, 0.35, 1],
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
 /// Frosted, translucent surface with a hairline border. One [BackdropFilter]
 /// per instance: keep the count low on TV hardware.
 class GlassContainer extends StatelessWidget {

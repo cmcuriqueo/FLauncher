@@ -175,16 +175,10 @@ class _AppCardState extends State<AppCard> with SingleTickerProviderStateMixin {
                         child: Container(color: Colors.black),
                       ),
                     ),
-                    IgnorePointer(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment(0, 0.7),
-                            colors: [Glass.fill(0.14), Glass.fill(0)],
-                          ),
-                        ),
-                      ),
+                    SpecularHighlight(
+                      borderRadius: _borderRadius,
+                      opacity: focused ? 1 : 0.5,
+                      duration: TvTokens.focusDuration,
                     ),
                     _focusRing(focused),
                   ],

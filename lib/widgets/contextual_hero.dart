@@ -53,6 +53,7 @@ class ContextualHero extends StatelessWidget {
             color: Glass.fill(0.10),
             borderRadius: TvTokens.cardBorderRadius,
             border: Border.all(color: Glass.stroke(0.12)),
+            boxShadow: Glass.restShadow,
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -72,6 +73,7 @@ class ContextualHero extends StatelessWidget {
                   ),
                 ),
               ),
+              SpecularHighlight(borderRadius: TvTokens.cardBorderRadius, opacity: 0.7),
               Positioned(
                 left: 24,
                 bottom: 20,
