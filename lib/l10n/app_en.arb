@@ -80,6 +80,8 @@
   },
   "addToFavorites": "Add to favorites",
   "removeFromFavorites": "Remove from favorites",
+  "continueWatching": "Continue watching",
+  "recent": "Recent",
   "wallpaperRepo": "Online gallery",
   "wallpaperRepoError": "Could not load the wallpaper gallery. Check your connection.",
   "uninstall": "Uninstall",

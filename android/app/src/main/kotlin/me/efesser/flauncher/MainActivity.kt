@@ -59,6 +59,8 @@ class MainActivity : FlutterActivity() {
                 "isDefaultLauncher" -> result.success(isDefaultLauncher())
                 "checkForGetContentAvailability" -> result.success(checkForGetContentAvailability())
                 "startAmbientMode" -> result.success(startAmbientMode())
+                "getWatchNextPrograms" -> result.success(getWatchNextPrograms())
+                "launchIntentUri" -> result.success(launchIntentUri(call.arguments as String))
                 else -> throw IllegalArgumentException()
             }
         }
@@ -215,6 +217,59 @@ class MainActivity : FlutterActivity() {
         true
     } catch (e: Exception) {
         false
+    }
+
+    private fun getWatchNextPrograms(): List<Map<String, Serializable?>> = try {
+        val cursor = contentResolver.query(
+            Uri.parse("content://android.media.tv/watch_next_program"),
+            arrayOf("title", "package_name", "intent_uri", "poster_art_uri", "duration_millis", "last_playback_position_millis"),
+            null, null, null,
+        )
+        val programs = mutableListOf<Map<String, Serializable?>>()
+        cursor?.use {
+            while (it.moveToNext()) {
+                val duration = it.getDouble(4)
+                val lastPosition = it.getDouble(5)
+                val progress = if (duration > 0) (lastPosition / duration).coerceIn(0.0, 1.0) else null
+                programs.add(mapOf(
+                    "title" to (it.getString(0) ?: ""),
+                    "packageName" to it.getString(1),
+                    "intentUri" to it.getString(2),
+                    "progress" to progress,
+                    "poster" to it.getString(3)?.let { uri -> uriToByteArray(Uri.parse(uri)) },
+                ))
+            }
+        }
+        programs
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    private fun launchIntentUri(intentUri: String) = try {
+        Intent.parseUri(intentUri, URI_INTENT_SCHEME)
+            .addFlags(FLAG_ACTIVITY_NEW_TASK)
+            .let(::startActivity)
+        true
+    } catch (e: Exception) {
+        false
+    }
+
+    private fun uriToByteArray(uri: Uri): ByteArray? = try {
+        contentResolver.openInputStream(uri)?.use { input ->
+            val bitmap = android.graphics.BitmapFactory.decodeStream(input) ?: return null
+            val maxWidth = 960
+            val scaled = if (bitmap.width > maxWidth) {
+                val height = bitmap.height * maxWidth / bitmap.width
+                Bitmap.createScaledBitmap(bitmap, maxWidth, height, true)
+            } else {
+                bitmap
+            }
+            val stream = ByteArrayOutputStream()
+            scaled.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+            stream.toByteArray()
+        }
+    } catch (e: Exception) {
+        null
     }
 
     private fun drawableToByteArray(drawable: Drawable): ByteArray? {

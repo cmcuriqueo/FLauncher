@@ -25,6 +25,7 @@ import 'package:flauncher/providers/focused_app_service.dart';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
+import 'package:flauncher/providers/watch_next_service.dart';
 import 'package:flauncher/unsplash_service.dart';
 import 'package:flauncher/theme.dart';
 import 'package:flutter/material.dart';
@@ -66,8 +67,11 @@ class FLauncherApp extends StatelessWidget {
               create: (_) =>
                   SettingsService(_sharedPreferences, _firebaseCrashlytics, _firebaseAnalytics, _firebaseRemoteConfig),
               lazy: false),
-          ChangeNotifierProvider(create: (_) => AppsService(_fLauncherChannel, _fLauncherDatabase)),
+          ChangeNotifierProxyProvider<SettingsService, AppsService>(
+              create: (_) => AppsService(_fLauncherChannel, _fLauncherDatabase),
+              update: (_, settingsService, appsService) => appsService!..settingsService = settingsService),
           ChangeNotifierProvider(create: (_) => FocusedAppService()),
+          ChangeNotifierProvider(create: (_) => WatchNextService(_fLauncherChannel)),
           ChangeNotifierProxyProvider<SettingsService, WallpaperService>(
               create: (_) => WallpaperService(_imagePicker, _fLauncherChannel, _unsplashService),
               update: (_, settingsService, wallpaperService) => wallpaperService!..settingsService = settingsService),
@@ -75,35 +79,35 @@ class FLauncherApp extends StatelessWidget {
         ],
         child: Consumer<SettingsService>(
           builder: (context, settingsService, _) => MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: settingsService.languageCode != null ? Locale(settingsService.languageCode!) : null,
-          shortcuts: {
-            ...WidgetsApp.defaultShortcuts,
-            SingleActivator(LogicalKeyboardKey.select): ActivateIntent(),
-            SingleActivator(LogicalKeyboardKey.gameButtonB): PrioritizedIntents(orderedIntents: [
-              DismissIntent(),
-              BackIntent(),
-            ]),
-          },
-          actions: {
-            ...WidgetsApp.defaultActions,
-            DirectionalFocusIntent: SoundFeedbackDirectionalFocusAction(context),
-          },
-          title: 'FLauncher',
-          theme: fLauncherTheme(),
-          home: Builder(
-            builder: (context) => WillPopScope(
-              onWillPop: () async {
-                final shouldPop = await shouldPopScope(context);
-                if (!shouldPop) {
-                  context.read<AppsService>().startAmbientMode();
-                }
-                return shouldPop;
-              },
-              child: Actions(actions: {BackIntent: BackAction(context, systemNavigator: true)}, child: FLauncher()),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: settingsService.languageCode != null ? Locale(settingsService.languageCode!) : null,
+            shortcuts: {
+              ...WidgetsApp.defaultShortcuts,
+              SingleActivator(LogicalKeyboardKey.select): ActivateIntent(),
+              SingleActivator(LogicalKeyboardKey.gameButtonB): PrioritizedIntents(orderedIntents: [
+                DismissIntent(),
+                BackIntent(),
+              ]),
+            },
+            actions: {
+              ...WidgetsApp.defaultActions,
+              DirectionalFocusIntent: SoundFeedbackDirectionalFocusAction(context),
+            },
+            title: 'FLauncher',
+            theme: fLauncherTheme(),
+            home: Builder(
+              builder: (context) => WillPopScope(
+                onWillPop: () async {
+                  final shouldPop = await shouldPopScope(context);
+                  if (!shouldPop) {
+                    context.read<AppsService>().startAmbientMode();
+                  }
+                  return shouldPop;
+                },
+                child: Actions(actions: {BackIntent: BackAction(context, systemNavigator: true)}, child: FLauncher()),
+              ),
             ),
-          ),
           ),
         ),
       );

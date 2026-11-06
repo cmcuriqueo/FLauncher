@@ -46,6 +46,12 @@ class FLauncherChannel {
 
   Future<void> startAmbientMode() async => await _methodChannel.invokeMethod("startAmbientMode");
 
+  Future<List<dynamic>> getWatchNextPrograms() async =>
+      (await _methodChannel.invokeListMethod('getWatchNextPrograms'))!;
+
+  Future<bool> launchIntentUri(String intentUri) async =>
+      await _methodChannel.invokeMethod('launchIntentUri', intentUri);
+
   void addAppsChangedListener(void Function(Map<dynamic, dynamic>) listener) =>
       _eventChannel.receiveBroadcastStream().listen((event) => listener(event));
 }

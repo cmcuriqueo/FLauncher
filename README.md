@@ -22,6 +22,7 @@ This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) 
 - [x] Force stop app
 - [x] Favorites row
 - [x] Contextual hero highlighting the focused app
+- [x] "Continue watching" hero content from the Android TV Watch Next channel, with recent-app fallback
 - [x] Liquid glass UI: specular highlights and focused glow on cards
 
 ## Screenshots
