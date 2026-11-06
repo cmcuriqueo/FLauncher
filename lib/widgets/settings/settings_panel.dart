@@ -23,6 +23,7 @@ import 'package:flauncher/widgets/settings/categories_panel_page.dart';
 import 'package:flauncher/widgets/settings/category_panel_page.dart';
 import 'package:flauncher/widgets/settings/gradient_panel_page.dart';
 import 'package:flauncher/widgets/settings/local_wallpaper_panel_page.dart';
+import 'package:flauncher/widgets/settings/repo_wallpaper_panel_page.dart';
 import 'package:flauncher/widgets/settings/settings_panel_page.dart';
 import 'package:flauncher/widgets/settings/unsplash_panel_page.dart';
 import 'package:flauncher/widgets/settings/wallpaper_panel_page.dart';
@@ -64,6 +65,8 @@ class _SettingsPanelState extends State<SettingsPanel> {
                     return MaterialPageRoute(builder: (_) => GradientPanelPage());
                   case LocalWallpaperPanelPage.routeName:
                     return MaterialPageRoute(builder: (_) => LocalWallpaperPanelPage());
+                  case RepoWallpaperPanelPage.routeName:
+                    return MaterialPageRoute(builder: (_) => RepoWallpaperPanelPage());
                   case ApplicationsPanelPage.routeName:
                     return MaterialPageRoute(builder: (_) => ApplicationsPanelPage());
                   case CategoriesPanelPage.routeName:

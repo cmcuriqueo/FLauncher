@@ -82,6 +82,8 @@
   "removeFromFavorites": "Quitar de favoritos",
   "continueWatching": "Seguir viendo",
   "recent": "Reciente",
+  "wallpaperRepo": "Galería en línea",
+  "wallpaperRepoError": "No se pudo cargar la galería de fondos. Revisá tu conexión.",
   "uninstall": "Desinstalar",
   "addTo": "Añadir a...",
   "emptyCategory": "Esta categoría está vacía.",
