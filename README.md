@@ -24,6 +24,47 @@ This repository is a fork of [FLauncher](https://gitlab.com/etienn01/flauncher) 
 - [x] Contextual hero highlighting the focused app
 - [x] "Continue watching" hero content from the Android TV Watch Next channel, with recent-app fallback
 - [x] Liquid glass UI: specular highlights and focused glow on cards
+- [x] Date below the clock
+- [x] Network connection status and local IP address in the top bar
+
+## Feature roadmap
+
+Completed features are marked with `[x]` only after they are implemented and verified. Planned features remain marked with `[ ]`.
+
+### Network diagnostics in Settings
+- [x] Network diagnostics screen with an on-demand "Start test" action
+- [x] Download and upload speed in Mbps
+- [x] Latency (ping): minimum, average, and maximum
+- [x] Packet loss percentage
+- [x] Jitter and a simple connection-stability summary
+- [x] Last test date and server used
+- [x] Gateway and DNS server information
+- [x] Wi-Fi signal strength, frequency, and link speed
+- [x] VPN status
+- [x] Shortcut to Android network settings
+
+Network speed tests run only when requested by the user, since they consume data and can affect playback or other network activity. Tests use Cloudflare's HTTPS endpoints (approximately 8 MB downloaded and 1 MB uploaded); latency, packet loss, and jitter are HTTPS request estimates, not ICMP ping measurements. Gateway, DNS, VPN, and Wi-Fi details depend on what the Android version and device expose. Wi-Fi metrics show "Not available" on Ethernet and unsupported devices.
+
+### Remote control and navigation
+- [x] Remote-button mapping: detect a button press and assign an app
+- [x] Netflix and YouTube button presets
+- [x] Reliable D-pad access to every top-bar control, including Settings
+
+Android does not allow every app to intercept every remote-control button globally. Buttons that FLauncher can receive may be mapped directly; global remapping of system-reserved buttons can require an accessibility service, device-specific permissions, ADB, or root access.
+
+### Other planned features
+- [x] Remote-friendly quick settings panel: Wi-Fi, Bluetooth, network settings, sleep, and screensaver
+- [x] Top-bar customization: show or hide the date, network status, and local IP address
+- [x] Storage space indicator, low-space warning, and app-management shortcut
+- [x] Connected Bluetooth devices and controller battery levels when supported by Android
+- [x] Global app search with D-pad navigation
+- [x] Recent apps row with an option to clear history
+- [x] Backup and restore for favorites, categories, ordering, and preferences
+- [x] Optional weather information
+- [x] Optional next-alarm indicator
+- [x] Customizable screensaver using the available wallpapers
+
+Free space is read from the device data partition. The top bar shows a storage warning when less than 10% or less than 1 GiB remains. Opening that warning, or the storage row in quick settings, opens Android's application management screen. Search filters installed apps and opens the selected one. Recent apps appear in their own row after they have been opened. Quick settings lists connected Bluetooth devices and a battery percentage when Android exposes one. Settings can export or import a JSON backup of categories, favorites, order, and preferences through the system file picker. Weather stays off until enabled and uses the last known location; the next alarm is shown by default. The screensaver can keep the current wallpaper or use one of the built-in gradients.
 
 ## Screenshots
 |  |  |  |

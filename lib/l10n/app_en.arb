@@ -10,6 +10,10 @@
   "language": "Language",
   "systemDefault": "System default",
   "use24HourTimeFormat": "Use 24-hour time format",
+  "checkingConnection": "Checking...",
+  "connected": "Connected",
+  "noInternet": "No Internet",
+  "noConnection": "No connection",
   "appCardHighlightAnimation": "App card highlight animation",
   "crashReporting": "Crash Reporting",
   "crashReportingSubtitle": "Automatically send crash reports through Firebase Crashlytics.",
@@ -89,5 +93,120 @@
   "emptyCategory": "This category is empty.",
   "aboutSourceCode": "FLauncher is an open-source alternative launcher for Android TV.\nSource code available at ",
   "aboutLogoBy": "Logo by Katie ",
-  "aboutDesignBy": "design by "
+  "aboutDesignBy": "design by ",
+  "remoteControl": "Remote control",
+  "remoteControlDescription": "Select an app, then press the remote button to assign. Shortcuts work while FLauncher is open; Android may reserve some buttons. Navigation, Back, and Home cannot be reassigned.",
+  "pressRemoteButton": "Press a button for {app}",
+  "@pressRemoteButton": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "remoteButton": "Button {keyCode}",
+  "@remoteButton": {
+    "placeholders": {
+      "keyCode": {
+        "type": "int"
+      }
+    }
+  },
+  "assignRemoteButton": "Select to assign a button",
+  "notInstalled": "Not installed",
+  "cancel": "Cancel",
+  "networkDiagnostics": "Network diagnostics",
+  "networkDiagnosticsDescription": "Run a test only when needed. It downloads about 8 MB and uploads about 1 MB, which can affect playback.",
+  "startNetworkTest": "Start test",
+  "networkTestRunning": "Test in progress...",
+  "networkTestFailed": "The test could not be completed. Check your connection and try again.",
+  "measuringLatency": "Measuring latency, packet loss, and jitter...",
+  "measuringDownload": "Measuring download speed...",
+  "measuringUpload": "Measuring upload speed...",
+  "downloadSpeed": "Download",
+  "uploadSpeed": "Upload",
+  "latency": "Latency (min / avg / max)",
+  "latencyValues": "{minimum} / {average} / {maximum} ms",
+  "@latencyValues": {
+    "placeholders": {
+      "minimum": {"type": "int"},
+      "average": {"type": "int"},
+      "maximum": {"type": "int"}
+    }
+  },
+  "packetLoss": "Estimated packet loss",
+  "jitter": "Jitter",
+  "connectionStability": "Connection stability",
+  "stableConnection": "Stable",
+  "fairConnection": "Fair",
+  "unstableConnection": "Unstable",
+  "lastNetworkTest": "Last test: {date}\nServer: {server}",
+  "@lastNetworkTest": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "server": {"type": "String"}
+    }
+  },
+  "gateway": "Gateway",
+  "dnsServers": "DNS servers",
+  "vpn": "VPN",
+  "active": "Active",
+  "inactive": "Inactive",
+  "notAvailable": "Not available",
+  "wifiSignal": "Wi-Fi signal",
+  "wifiFrequency": "Wi-Fi frequency",
+  "wifiLinkSpeed": "Wi-Fi link speed",
+  "androidNetworkSettings": "Android network settings",
+  "httpsDiagnosticsNote": "Latency, loss, and jitter are estimates based on HTTPS requests, not ICMP ping. Wi-Fi details are unavailable on Ethernet and on devices that do not expose them.",
+  "quickSettings": "Quick settings",
+  "wifiSettings": "Wi-Fi settings",
+  "bluetoothSettings": "Bluetooth settings",
+  "sleep": "Sleep",
+  "screensaver": "Screensaver",
+  "screensaverExit": "Press any button to exit",
+  "sleepAccessibilityRequired": "To allow Sleep, enable FLauncher in Android Accessibility settings and try again.",
+  "quickSettingsNote": "Wi-Fi and Bluetooth open Android settings because direct switching is restricted. Sleep requires the optional FLauncher accessibility service.",
+  "topBar": "Top bar",
+  "showDate": "Show date",
+  "showNetworkStatus": "Show network status",
+  "showLocalIpAddress": "Show local IP address",
+  "storage": "Storage",
+  "storageFree": "{free} free of {total}",
+  "@storageFree": {
+    "placeholders": {
+      "free": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "storageLow": "Low storage",
+  "manageApps": "Manage apps",
+  "storageUnavailable": "Storage information is not available",
+  "launcherMemory": "Launcher memory",
+  "launcherMemoryUsed": "{used} used",
+  "@launcherMemoryUsed": {
+    "placeholders": {
+      "used": {"type": "String"}
+    }
+  },
+  "launcherMemoryUnavailable": "Memory information is not available",
+  "searchApps": "Search apps",
+  "noSearchResults": "No applications found",
+  "recentApps": "Recent apps",
+  "clearRecentApps": "Clear",
+  "nextAlarm": "Alarm",
+  "showNextAlarm": "Show next alarm",
+  "showWeather": "Show weather",
+  "bluetoothDevices": "Bluetooth devices",
+  "bluetoothUnavailable": "Bluetooth information is not available",
+  "bluetoothBattery": "{level}% battery",
+  "@bluetoothBattery": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "exportBackup": "Export backup",
+  "importBackup": "Import backup",
+  "backupFailed": "Could not read that backup",
+  "screensaverBackground": "Screensaver background",
+  "currentWallpaper": "Current wallpaper"
 }

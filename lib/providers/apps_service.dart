@@ -21,6 +21,7 @@ import 'dart:collection';
 
 import 'package:drift/drift.dart';
 import 'package:flauncher/database.dart';
+import 'package:flauncher/launcher_backup.dart';
 import 'package:flauncher/flauncher_channel.dart';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -296,6 +297,74 @@ class AppsService extends ChangeNotifier {
   Future<void> setCategoryRowHeight(Category category, int rowHeight) async {
     await _database.updateCategory(category.id, CategoriesCompanion(rowHeight: Value(rowHeight)));
     _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+    notifyListeners();
+  }
+
+  Map<String, dynamic> exportBackup() => LauncherBackup.encode(
+        categories: _categoriesWithApps,
+        favorites: _favoriteApplications.map((app) => app.packageName).toList(),
+        preferences: _settingsService?.backupPreferences() ?? {},
+      );
+
+  Future<void> importBackup(Map<String, dynamic> json) async {
+    final data = LauncherBackup.decode(json);
+    await _settingsService?.applyPreferences(data.preferences);
+    for (final app in _applications) {
+      final favorite = data.favorites.contains(app.packageName);
+      if (app.favorite != favorite) {
+        await _database.updateApp(
+            app.packageName, AppsCompanion(favorite: Value(favorite)));
+      }
+    }
+    _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+    for (final category in data.categories) {
+      final matches =
+          _categoriesWithApps.where((entry) => entry.category.name == category.name);
+      final int id;
+      if (matches.isEmpty) {
+        await addCategory(category.name, shouldNotifyListeners: false);
+        _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+        id = _categoriesWithApps
+            .firstWhere((entry) => entry.category.name == category.name)
+            .category
+            .id;
+      } else {
+        id = matches.first.category.id;
+      }
+      await _database.updateCategory(
+        id,
+        CategoriesCompanion(
+          sort: Value(category.sort),
+          type: Value(category.type),
+          rowHeight: Value(category.rowHeight),
+          columnsCount: Value(category.columnsCount),
+          order: Value(category.order),
+        ),
+      );
+      _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+      final current =
+          _categoriesWithApps.firstWhere((entry) => entry.category.id == id);
+      for (final app in List<App>.from(current.applications)) {
+        await _database.deleteAppCategory(id, app.packageName);
+      }
+      var order = 0;
+      for (final packageName in category.apps) {
+        if (!_applications.any((app) => app.packageName == packageName)) {
+          continue;
+        }
+        await _database.insertAppsCategories([
+          AppsCategoriesCompanion.insert(
+            categoryId: id,
+            appPackageName: packageName,
+            order: order,
+          ),
+        ]);
+        order++;
+      }
+    }
+    _categoriesWithApps = await _database.listCategoriesWithVisibleApps();
+    _applications = await _database.listApplications();
+    _favoriteApplications = await _database.listFavoriteApplications();
     notifyListeners();
   }
 }

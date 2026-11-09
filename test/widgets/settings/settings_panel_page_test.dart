@@ -117,16 +117,12 @@ void main() {
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pumpAndSettle();
+    await _navigateTo(tester, "Android settings");
     verify(appsService.openSettings());
   });
 
-  testWidgets("'Use 24-hour time format' toggle calls SettingsService", (tester) async {
+  testWidgets("'Use 24-hour time format' toggle calls SettingsService",
+      (tester) async {
     final settingsService = MockSettingsService();
     final appsService = MockAppsService();
     when(appsService.categoriesWithApps).thenReturn([]);
@@ -139,14 +135,7 @@ void main() {
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pumpAndSettle();
+    await _navigateTo(tester, "Use 24-hour time format");
     verify(settingsService.setUse24HourTimeFormat(true));
   });
 
@@ -163,20 +152,12 @@ void main() {
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pumpAndSettle();
+    await _navigateTo(tester, "Crash Reporting");
     verify(settingsService.setCrashReportsEnabled(true));
   });
 
-  testWidgets("'Analytics Reporting' toggle calls SettingsService", (tester) async {
+  testWidgets("'Analytics Reporting' toggle calls SettingsService",
+      (tester) async {
     final settingsService = MockSettingsService();
     final appsService = MockAppsService();
     when(appsService.categoriesWithApps).thenReturn([]);
@@ -189,17 +170,7 @@ void main() {
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pumpAndSettle();
+    await _navigateTo(tester, "Analytics Reporting");
     verify(settingsService.setAnalyticsEnabled(true));
   });
 
@@ -217,20 +188,19 @@ void main() {
 
     await _pumpWidgetWithProviders(tester, settingsService, appsService);
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pumpAndSettle();
+    await _navigateTo(tester, "About FLauncher");
     expect(find.byType(FLauncherAboutDialog), findsOneWidget);
   });
+}
+
+Future<void> _navigateTo(WidgetTester tester, String label) async {
+  for (var step = 0; step < 25; step++) {
+    if (Focus.of(tester.element(find.text(label))).hasFocus) break;
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+  }
+  expect(Focus.of(tester.element(find.text(label))).hasFocus, isTrue);
+  await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+  await tester.pumpAndSettle();
 }
 
 Future<void> _pumpWidgetWithProviders(
@@ -248,9 +218,12 @@ Future<void> _pumpWidgetWithProviders(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routes: {
-          CategoriesPanelPage.routeName: (_) => Container(key: Key("CategoriesPanelPage")),
-          WallpaperPanelPage.routeName: (_) => Container(key: Key("WallpaperPanelPage")),
-          ApplicationsPanelPage.routeName: (_) => Container(key: Key("ApplicationsPanelPage")),
+          CategoriesPanelPage.routeName: (_) =>
+              Container(key: Key("CategoriesPanelPage")),
+          WallpaperPanelPage.routeName: (_) =>
+              Container(key: Key("WallpaperPanelPage")),
+          ApplicationsPanelPage.routeName: (_) =>
+              Container(key: Key("ApplicationsPanelPage")),
         },
         home: Material(child: SettingsPanelPage()),
       ),
@@ -259,7 +232,9 @@ Future<void> _pumpWidgetWithProviders(
   await tester.pumpAndSettle();
 }
 
-class _MockPackageInfoPlatform with MockPlatformInterfaceMixin implements PackageInfoPlatform {
+class _MockPackageInfoPlatform
+    with MockPlatformInterfaceMixin
+    implements PackageInfoPlatform {
   @override
   Future<PackageInfoData> getAll() async => PackageInfoData(
         appName: "FLauncher",

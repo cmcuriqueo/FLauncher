@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="flauncher_accessibility_description">Allows FLauncher to lock the screen from its quick settings panel. FLauncher does not read screen content.</string>
+</resources>

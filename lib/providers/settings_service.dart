@@ -17,10 +17,12 @@
  */
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flauncher/providers/network_diagnostics_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,6 +35,14 @@ const _unsplashEnabledKey = "unsplash_enabled";
 const _unsplashAuthorKey = "unsplash_author";
 const _languageCodeKey = "language_code";
 const _recentPackagesKey = "recent_packages";
+const _remoteShortcutsKey = "remote_shortcuts";
+const _lastNetworkDiagnosticsKey = "last_network_diagnostics";
+const _showDateKey = "show_date";
+const _showNetworkStatusKey = "show_network_status";
+const _showLocalIpAddressKey = "show_local_ip_address";
+const _showNextAlarmKey = "show_next_alarm";
+const _showWeatherKey = "show_weather";
+const _screensaverGradientKey = "screensaver_gradient";
 const _maxRecentPackages = 5;
 
 class SettingsService extends ChangeNotifier {
@@ -42,24 +52,145 @@ class SettingsService extends ChangeNotifier {
   final FirebaseRemoteConfig _firebaseRemoteConfig;
   late final Timer _remoteConfigRefreshTimer;
 
-  bool get crashReportsEnabled => _sharedPreferences.getBool(_crashReportsEnabledKey) ?? true;
+  bool get crashReportsEnabled =>
+      _sharedPreferences.getBool(_crashReportsEnabledKey) ?? true;
 
-  bool get analyticsEnabled => _sharedPreferences.getBool(_analyticsEnabledKey) ?? true;
+  bool get analyticsEnabled =>
+      _sharedPreferences.getBool(_analyticsEnabledKey) ?? true;
 
-  bool get use24HourTimeFormat => _sharedPreferences.getBool(_use24HourTimeFormatKey) ?? true;
+  bool get use24HourTimeFormat =>
+      _sharedPreferences.getBool(_use24HourTimeFormatKey) ?? true;
 
-  bool get appHighlightAnimationEnabled => _sharedPreferences.getBool(_appHighlightAnimationEnabledKey) ?? true;
+  bool get appHighlightAnimationEnabled =>
+      _sharedPreferences.getBool(_appHighlightAnimationEnabledKey) ?? true;
 
   String? get gradientUuid => _sharedPreferences.getString(_gradientUuidKey);
 
-  bool get unsplashEnabled => _firebaseRemoteConfig.getBool(_unsplashEnabledKey);
+  bool get unsplashEnabled =>
+      _firebaseRemoteConfig.getBool(_unsplashEnabledKey);
 
-  String? get unsplashAuthor => _sharedPreferences.getString(_unsplashAuthorKey);
+  String? get unsplashAuthor =>
+      _sharedPreferences.getString(_unsplashAuthorKey);
 
   String? get languageCode => _sharedPreferences.getString(_languageCodeKey);
 
+  bool get showDate => _sharedPreferences.getBool(_showDateKey) ?? true;
+
+  bool get showNetworkStatus =>
+      _sharedPreferences.getBool(_showNetworkStatusKey) ?? true;
+
+  bool get showLocalIpAddress =>
+      _sharedPreferences.getBool(_showLocalIpAddressKey) ?? true;
+
+  Future<void> setShowDate(bool value) async {
+    await _sharedPreferences.setBool(_showDateKey, value);
+    notifyListeners();
+  }
+
+  Future<void> setShowNetworkStatus(bool value) async {
+    await _sharedPreferences.setBool(_showNetworkStatusKey, value);
+    notifyListeners();
+  }
+
+  Future<void> setShowLocalIpAddress(bool value) async {
+    await _sharedPreferences.setBool(_showLocalIpAddressKey, value);
+    notifyListeners();
+  }
+
+  bool get showNextAlarm =>
+      _sharedPreferences.getBool(_showNextAlarmKey) ?? true;
+
+  bool get showWeather => _sharedPreferences.getBool(_showWeatherKey) ?? false;
+
+  String? get screensaverGradientUuid =>
+      _sharedPreferences.getString(_screensaverGradientKey);
+
+  Future<void> setShowNextAlarm(bool value) async {
+    await _sharedPreferences.setBool(_showNextAlarmKey, value);
+    notifyListeners();
+  }
+
+  Future<void> setShowWeather(bool value) async {
+    await _sharedPreferences.setBool(_showWeatherKey, value);
+    notifyListeners();
+  }
+
+  Future<void> setScreensaverGradientUuid(String? value) async {
+    if (value == null) {
+      await _sharedPreferences.remove(_screensaverGradientKey);
+    } else {
+      await _sharedPreferences.setString(_screensaverGradientKey, value);
+    }
+    notifyListeners();
+  }
+
+  Future<void> clearRecentPackages() async {
+    await _sharedPreferences.remove(_recentPackagesKey);
+    notifyListeners();
+  }
+
+  Map<String, dynamic> backupPreferences() => {
+        "use24HourTimeFormat": use24HourTimeFormat,
+        "showDate": showDate,
+        "showNetworkStatus": showNetworkStatus,
+        "showLocalIpAddress": showLocalIpAddress,
+        "showNextAlarm": showNextAlarm,
+        "showWeather": showWeather,
+        "screensaverGradientUuid": screensaverGradientUuid,
+        "appHighlightAnimationEnabled": appHighlightAnimationEnabled,
+        "languageCode": languageCode,
+      };
+
+  Future<void> applyPreferences(Map<String, dynamic> preferences) async {
+    Future<void> writeBool(String key, String prefKey) async {
+      final value = preferences[key];
+      if (value is bool) await _sharedPreferences.setBool(prefKey, value);
+    }
+
+    await writeBool("use24HourTimeFormat", _use24HourTimeFormatKey);
+    await writeBool("showDate", _showDateKey);
+    await writeBool("showNetworkStatus", _showNetworkStatusKey);
+    await writeBool("showLocalIpAddress", _showLocalIpAddressKey);
+    await writeBool("showNextAlarm", _showNextAlarmKey);
+    await writeBool("showWeather", _showWeatherKey);
+    await writeBool(
+        "appHighlightAnimationEnabled", _appHighlightAnimationEnabledKey);
+    final gradient = preferences["screensaverGradientUuid"];
+    if (gradient is String) {
+      await _sharedPreferences.setString(_screensaverGradientKey, gradient);
+    } else if (preferences.containsKey("screensaverGradientUuid")) {
+      await _sharedPreferences.remove(_screensaverGradientKey);
+    }
+    final language = preferences["languageCode"];
+    if (language is String) {
+      await _sharedPreferences.setString(_languageCodeKey, language);
+    } else if (preferences.containsKey("languageCode")) {
+      await _sharedPreferences.remove(_languageCodeKey);
+    }
+    notifyListeners();
+  }
+
   /// Most recently launched package names, latest first.
-  List<String> get recentPackages => _sharedPreferences.getStringList(_recentPackagesKey) ?? [];
+  List<String> get recentPackages =>
+      _sharedPreferences.getStringList(_recentPackagesKey) ?? [];
+
+  Map<int, String> get remoteShortcuts {
+    final saved = _sharedPreferences.getString(_remoteShortcutsKey);
+    if (saved == null) return {};
+    return (jsonDecode(saved) as Map<String, dynamic>)
+        .map((key, value) => MapEntry(int.parse(key), value as String));
+  }
+
+  NetworkDiagnosticsResult? get lastNetworkDiagnostics =>
+      NetworkDiagnosticsResult.tryFromJson(
+          _sharedPreferences.getString(_lastNetworkDiagnosticsKey));
+
+  Future<void> setLastNetworkDiagnostics(
+      NetworkDiagnosticsResult result) async {
+    await _sharedPreferences.setString(
+        _lastNetworkDiagnosticsKey, jsonEncode(result.toJson()));
+    notifyListeners();
+  }
 
   SettingsService(
     this._sharedPreferences,
@@ -67,9 +198,12 @@ class SettingsService extends ChangeNotifier {
     this._firebaseAnalytics,
     this._firebaseRemoteConfig,
   ) {
-    _firebaseCrashlytics.setCrashlyticsCollectionEnabled(kReleaseMode && crashReportsEnabled);
-    _firebaseAnalytics.setAnalyticsCollectionEnabled(kReleaseMode && analyticsEnabled);
-    _remoteConfigRefreshTimer = Timer.periodic(Duration(hours: 6, minutes: 1), (_) => _refreshFirebaseRemoteConfig());
+    _firebaseCrashlytics
+        .setCrashlyticsCollectionEnabled(kReleaseMode && crashReportsEnabled);
+    _firebaseAnalytics
+        .setAnalyticsCollectionEnabled(kReleaseMode && analyticsEnabled);
+    _remoteConfigRefreshTimer = Timer.periodic(
+        Duration(hours: 6, minutes: 1), (_) => _refreshFirebaseRemoteConfig());
   }
 
   @override
@@ -126,7 +260,27 @@ class SettingsService extends ChangeNotifier {
   Future<void> addRecentPackage(String packageName) async {
     final recents = recentPackages..remove(packageName);
     recents.insert(0, packageName);
-    await _sharedPreferences.setStringList(_recentPackagesKey, recents.take(_maxRecentPackages).toList());
+    await _sharedPreferences.setStringList(
+        _recentPackagesKey, recents.take(_maxRecentPackages).toList());
+    notifyListeners();
+  }
+
+  Future<void> setRemoteShortcut(int keyCode, String packageName) async {
+    final shortcuts = Map<int, String>.from(remoteShortcuts);
+    shortcuts[keyCode] = packageName;
+    await _saveRemoteShortcuts(shortcuts);
+  }
+
+  Future<void> removeRemoteShortcut(int keyCode) async {
+    final shortcuts = Map<int, String>.from(remoteShortcuts)..remove(keyCode);
+    await _saveRemoteShortcuts(shortcuts);
+  }
+
+  Future<void> _saveRemoteShortcuts(Map<int, String> shortcuts) async {
+    final encoded =
+        shortcuts.map((key, value) => MapEntry(key.toString(), value));
+    await _sharedPreferences.setString(
+        _remoteShortcutsKey, jsonEncode(encoded));
     notifyListeners();
   }
 

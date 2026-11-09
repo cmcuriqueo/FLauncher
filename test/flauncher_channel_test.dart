@@ -137,7 +137,8 @@ void main() {
     });
     final fLauncherChannel = FLauncherChannel();
 
-    final getContentAvailable = await fLauncherChannel.checkForGetContentAvailability();
+    final getContentAvailable =
+        await fLauncherChannel.checkForGetContentAvailability();
 
     expect(getContentAvailable, isTrue);
   });
@@ -157,5 +158,75 @@ void main() {
     await fLauncherChannel.startAmbientMode();
 
     expect(called, isTrue);
+  });
+
+  test("getNetworkStatus", () async {
+    final channel = MethodChannel('me.efesser.flauncher/method');
+    channel.setMockMethodCallHandler((call) async {
+      if (call.method == "getNetworkStatus") {
+        return {
+          "hasInternet": true,
+          "type": "wifi",
+          "ipAddress": "192.168.1.20"
+        };
+      }
+      fail("Unhandled method name");
+    });
+    final fLauncherChannel = FLauncherChannel();
+
+    final status = await fLauncherChannel.getNetworkStatus();
+
+    expect(status["hasInternet"], isTrue);
+    expect(status["type"], "wifi");
+    expect(status["ipAddress"], "192.168.1.20");
+  });
+
+  test("getStorageStatus", () async {
+    final channel = MethodChannel('me.efesser.flauncher/method');
+    channel.setMockMethodCallHandler((call) async {
+      if (call.method == "getStorageStatus") {
+        return {"totalBytes": 100, "freeBytes": 40};
+      }
+      fail("Unhandled method name");
+    });
+    final fLauncherChannel = FLauncherChannel();
+
+    final status = await fLauncherChannel.getStorageStatus();
+
+    expect(status["totalBytes"], 100);
+    expect(status["freeBytes"], 40);
+  });
+
+  test("getLauncherMemoryUsage", () async {
+    final channel = MethodChannel('me.efesser.flauncher/method');
+    channel.setMockMethodCallHandler((call) async {
+      if (call.method == "getLauncherMemoryUsage") {
+        return 128 * 1024 * 1024;
+      }
+      fail("Unhandled method name");
+    });
+    final fLauncherChannel = FLauncherChannel();
+
+    final bytes = await fLauncherChannel.getLauncherMemoryUsage();
+
+    expect(bytes, 128 * 1024 * 1024);
+  });
+
+  test("openApplicationManagement", () async {
+    final channel = MethodChannel('me.efesser.flauncher/method');
+    var called = false;
+    channel.setMockMethodCallHandler((call) async {
+      if (call.method == "openApplicationManagement") {
+        called = true;
+        return true;
+      }
+      fail("Unhandled method name");
+    });
+    final fLauncherChannel = FLauncherChannel();
+
+    final opened = await fLauncherChannel.openApplicationManagement();
+
+    expect(called, isTrue);
+    expect(opened, isTrue);
   });
 }

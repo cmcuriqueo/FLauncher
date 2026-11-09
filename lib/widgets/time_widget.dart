@@ -19,8 +19,11 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flauncher/providers/next_alarm_service.dart';
 import 'package:flauncher/providers/settings_service.dart';
+import 'package:flauncher/providers/weather_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +40,18 @@ class _TimeWidgetState extends State<TimeWidget> {
   void initState() {
     super.initState();
     _now = DateTime.now();
-    _timer = Timer.periodic(Duration(seconds: 1), (_) => _refreshTime());
+    _scheduleNextMinuteRefresh();
+  }
+
+  void _scheduleNextMinuteRefresh() {
+    final now = DateTime.now();
+    final nextMinute =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute + 1);
+    _timer = Timer(nextMinute.difference(now), () {
+      if (!mounted) return;
+      _refreshTime();
+      _scheduleNextMinuteRefresh();
+    });
   }
 
   @override
@@ -47,17 +61,45 @@ class _TimeWidgetState extends State<TimeWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Selector<SettingsService, bool>(
-        selector: (_, settingsService) => settingsService.use24HourTimeFormat,
-        builder: (context, use24HourTimeFormat, _) => Text(
-          use24HourTimeFormat ? DateFormat.Hm().format(_now) : DateFormat.jm().format(_now),
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontWeight: FontWeight.w500,
-            letterSpacing: -0.5,
-            fontFeatures: [FontFeature.tabularFigures()],
-          ),
-          textAlign: TextAlign.end,
-        ),
+  Widget build(BuildContext context) => Consumer<SettingsService>(
+        builder: (context, settingsService, _) {
+          final alarm = settingsService.showNextAlarm
+              ? context.watch<NextAlarmService>().nextAlarm
+              : null;
+          final weather = settingsService.showWeather
+              ? context.watch<WeatherService>().report
+              : null;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                settingsService.use24HourTimeFormat
+                    ? DateFormat.Hm().format(_now)
+                    : DateFormat.jm().format(_now),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: -0.5,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+                textAlign: TextAlign.end,
+              ),
+              if (settingsService.showDate || weather != null || alarm != null)
+                Text(
+                  [
+                    if (settingsService.showDate)
+                      DateFormat.MMMEd(
+                              Localizations.localeOf(context).toLanguageTag())
+                          .format(_now),
+                    if (weather != null) "${weather.temperature.round()}°",
+                    if (alarm != null)
+                      "${AppLocalizations.of(context)!.nextAlarm} ${settingsService.use24HourTimeFormat ? DateFormat.Hm().format(alarm) : DateFormat.jm().format(alarm)}",
+                  ].join(" · "),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+            ],
+          );
+        },
       );
 
   void _refreshTime() {

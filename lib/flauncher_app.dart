@@ -22,7 +22,12 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flauncher/actions.dart';
 import 'package:flauncher/providers/apps_service.dart';
 import 'package:flauncher/providers/focused_app_service.dart';
+import 'package:flauncher/providers/network_diagnostics_service.dart';
+import 'package:flauncher/providers/next_alarm_service.dart';
+import 'package:flauncher/providers/weather_service.dart';
+import 'package:flauncher/providers/network_status_service.dart';
 import 'package:flauncher/providers/settings_service.dart';
+import 'package:flauncher/providers/storage_status_service.dart';
 import 'package:flauncher/providers/ticker_model.dart';
 import 'package:flauncher/providers/wallpaper_service.dart';
 import 'package:flauncher/providers/watch_next_service.dart';
@@ -63,36 +68,59 @@ class FLauncherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
+          Provider<FLauncherChannel>.value(value: _fLauncherChannel),
           ChangeNotifierProvider(
-              create: (_) =>
-                  SettingsService(_sharedPreferences, _firebaseCrashlytics, _firebaseAnalytics, _firebaseRemoteConfig),
+              create: (_) => SettingsService(
+                  _sharedPreferences,
+                  _firebaseCrashlytics,
+                  _firebaseAnalytics,
+                  _firebaseRemoteConfig),
               lazy: false),
           ChangeNotifierProxyProvider<SettingsService, AppsService>(
               create: (_) => AppsService(_fLauncherChannel, _fLauncherDatabase),
-              update: (_, settingsService, appsService) => appsService!..settingsService = settingsService),
+              update: (_, settingsService, appsService) =>
+                  appsService!..settingsService = settingsService),
           ChangeNotifierProvider(create: (_) => FocusedAppService()),
-          ChangeNotifierProvider(create: (_) => WatchNextService(_fLauncherChannel)),
+          ChangeNotifierProvider(
+              create: (_) => NetworkStatusService(_fLauncherChannel)),
+          ChangeNotifierProvider(
+              create: (_) => StorageStatusService(_fLauncherChannel)),
+          ChangeNotifierProvider(
+              create: (_) => NextAlarmService(_fLauncherChannel)),
+          ChangeNotifierProvider(
+              create: (_) => WeatherService(_fLauncherChannel)),
+          ChangeNotifierProvider(
+              create: (_) => NetworkDiagnosticsService(
+                  _fLauncherChannel, CloudflareNetworkDiagnosticsTransport())),
+          ChangeNotifierProvider(
+              create: (_) => WatchNextService(_fLauncherChannel)),
           ChangeNotifierProxyProvider<SettingsService, WallpaperService>(
-              create: (_) => WallpaperService(_imagePicker, _fLauncherChannel, _unsplashService),
-              update: (_, settingsService, wallpaperService) => wallpaperService!..settingsService = settingsService),
+              create: (_) => WallpaperService(
+                  _imagePicker, _fLauncherChannel, _unsplashService),
+              update: (_, settingsService, wallpaperService) =>
+                  wallpaperService!..settingsService = settingsService),
           Provider<TickerModel>(create: (context) => TickerModel(null))
         ],
         child: Consumer<SettingsService>(
           builder: (context, settingsService, _) => MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            locale: settingsService.languageCode != null ? Locale(settingsService.languageCode!) : null,
+            locale: settingsService.languageCode != null
+                ? Locale(settingsService.languageCode!)
+                : null,
             shortcuts: {
               ...WidgetsApp.defaultShortcuts,
               SingleActivator(LogicalKeyboardKey.select): ActivateIntent(),
-              SingleActivator(LogicalKeyboardKey.gameButtonB): PrioritizedIntents(orderedIntents: [
+              SingleActivator(LogicalKeyboardKey.gameButtonB):
+                  PrioritizedIntents(orderedIntents: [
                 DismissIntent(),
                 BackIntent(),
               ]),
             },
             actions: {
               ...WidgetsApp.defaultActions,
-              DirectionalFocusIntent: SoundFeedbackDirectionalFocusAction(context),
+              DirectionalFocusIntent:
+                  SoundFeedbackDirectionalFocusAction(context),
             },
             title: 'FLauncher',
             theme: fLauncherTheme(),
@@ -105,7 +133,9 @@ class FLauncherApp extends StatelessWidget {
                   }
                   return shouldPop;
                 },
-                child: Actions(actions: {BackIntent: BackAction(context, systemNavigator: true)}, child: FLauncher()),
+                child: Actions(actions: {
+                  BackIntent: BackAction(context, systemNavigator: true)
+                }, child: FLauncher()),
               ),
             ),
           ),

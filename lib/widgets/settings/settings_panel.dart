@@ -23,8 +23,11 @@ import 'package:flauncher/widgets/settings/categories_panel_page.dart';
 import 'package:flauncher/widgets/settings/category_panel_page.dart';
 import 'package:flauncher/widgets/settings/gradient_panel_page.dart';
 import 'package:flauncher/widgets/settings/local_wallpaper_panel_page.dart';
+import 'package:flauncher/widgets/settings/network_diagnostics_panel_page.dart';
+import 'package:flauncher/widgets/settings/remote_control_panel_page.dart';
 import 'package:flauncher/widgets/settings/repo_wallpaper_panel_page.dart';
 import 'package:flauncher/widgets/settings/settings_panel_page.dart';
+import 'package:flauncher/widgets/settings/top_bar_panel_page.dart';
 import 'package:flauncher/widgets/settings/unsplash_panel_page.dart';
 import 'package:flauncher/widgets/settings/wallpaper_panel_page.dart';
 import 'package:flutter/foundation.dart';
@@ -52,31 +55,53 @@ class _SettingsPanelState extends State<SettingsPanel> {
             child: Navigator(
               key: _navigatorKey,
               initialRoute: widget.initialRoute ?? SettingsPanelPage.routeName,
-              observers: [if (kReleaseMode) FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
+              observers: [
+                if (kReleaseMode)
+                  FirebaseAnalyticsObserver(
+                      analytics: FirebaseAnalytics.instance)
+              ],
               onGenerateRoute: (settings) {
                 switch (settings.name) {
                   case SettingsPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => SettingsPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => SettingsPanelPage());
                   case WallpaperPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => WallpaperPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => WallpaperPanelPage());
                   case UnsplashPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => UnsplashPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => UnsplashPanelPage());
                   case GradientPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => GradientPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => GradientPanelPage());
                   case LocalWallpaperPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => LocalWallpaperPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => LocalWallpaperPanelPage());
                   case RepoWallpaperPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => RepoWallpaperPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => RepoWallpaperPanelPage());
+                  case RemoteControlPanelPage.routeName:
+                    return MaterialPageRoute(
+                        builder: (_) => RemoteControlPanelPage());
+                  case NetworkDiagnosticsPanelPage.routeName:
+                    return MaterialPageRoute(
+                        builder: (_) => NetworkDiagnosticsPanelPage());
+                  case TopBarPanelPage.routeName:
+                    return MaterialPageRoute(builder: (_) => TopBarPanelPage());
                   case ApplicationsPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => ApplicationsPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => ApplicationsPanelPage());
                   case CategoriesPanelPage.routeName:
-                    return MaterialPageRoute(builder: (_) => CategoriesPanelPage());
+                    return MaterialPageRoute(
+                        builder: (_) => CategoriesPanelPage());
                   case CategoryPanelPage.routeName:
                     return MaterialPageRoute(
-                      builder: (_) => CategoryPanelPage(categoryId: settings.arguments! as int),
+                      builder: (_) => CategoryPanelPage(
+                          categoryId: settings.arguments! as int),
                     );
                   default:
-                    throw ArgumentError.value(settings.name, "settings.name", "Route not supported.");
+                    throw ArgumentError.value(
+                        settings.name, "settings.name", "Route not supported.");
                 }
               },
             ),

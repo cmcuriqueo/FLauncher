@@ -10,6 +10,10 @@
   "language": "Idioma",
   "systemDefault": "Predeterminado del sistema",
   "use24HourTimeFormat": "Usar formato de hora de 24 horas",
+  "checkingConnection": "Comprobando...",
+  "connected": "Conectado",
+  "noInternet": "Sin Internet",
+  "noConnection": "Sin conexión",
   "appCardHighlightAnimation": "Animación de resaltado de tarjetas",
   "crashReporting": "Informes de fallos",
   "crashReportingSubtitle": "Enviar informes de fallos automáticamente a través de Firebase Crashlytics.",
@@ -89,5 +93,120 @@
   "emptyCategory": "Esta categoría está vacía.",
   "aboutSourceCode": "FLauncher es un launcher alternativo de código abierto para Android TV.\nCódigo fuente disponible en ",
   "aboutLogoBy": "Logo de Katie ",
-  "aboutDesignBy": "diseño de "
+  "aboutDesignBy": "diseño de ",
+  "remoteControl": "Control remoto",
+  "remoteControlDescription": "Elegí una app y presioná el botón del control que querés asignar. Los atajos funcionan mientras FLauncher está abierto; Android puede reservar algunos botones. No se pueden reasignar navegación, Atrás ni Inicio.",
+  "pressRemoteButton": "Presioná un botón para {app}",
+  "@pressRemoteButton": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "remoteButton": "Botón {keyCode}",
+  "@remoteButton": {
+    "placeholders": {
+      "keyCode": {
+        "type": "int"
+      }
+    }
+  },
+  "assignRemoteButton": "Elegí esta app para asignar un botón",
+  "notInstalled": "No instalada",
+  "cancel": "Cancelar",
+  "networkDiagnostics": "Diagnóstico de red",
+  "networkDiagnosticsDescription": "Ejecutá la prueba solo cuando la necesites. Descarga unos 8 MB y sube aproximadamente 1 MB, lo que puede afectar la reproducción.",
+  "startNetworkTest": "Iniciar prueba",
+  "networkTestRunning": "Prueba en curso...",
+  "networkTestFailed": "No se pudo completar la prueba. Revisá la conexión e intentá de nuevo.",
+  "measuringLatency": "Midiendo latencia, pérdida de paquetes y jitter...",
+  "measuringDownload": "Midiendo velocidad de descarga...",
+  "measuringUpload": "Midiendo velocidad de subida...",
+  "downloadSpeed": "Descarga",
+  "uploadSpeed": "Subida",
+  "latency": "Latencia (mín / prom / máx)",
+  "latencyValues": "{minimum} / {average} / {maximum} ms",
+  "@latencyValues": {
+    "placeholders": {
+      "minimum": {"type": "int"},
+      "average": {"type": "int"},
+      "maximum": {"type": "int"}
+    }
+  },
+  "packetLoss": "Pérdida de paquetes estimada",
+  "jitter": "Jitter",
+  "connectionStability": "Estabilidad de la conexión",
+  "stableConnection": "Estable",
+  "fairConnection": "Aceptable",
+  "unstableConnection": "Inestable",
+  "lastNetworkTest": "Última prueba: {date}\nServidor: {server}",
+  "@lastNetworkTest": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "server": {"type": "String"}
+    }
+  },
+  "gateway": "Puerta de enlace",
+  "dnsServers": "Servidores DNS",
+  "vpn": "VPN",
+  "active": "Activa",
+  "inactive": "Inactiva",
+  "notAvailable": "No disponible",
+  "wifiSignal": "Señal Wi-Fi",
+  "wifiFrequency": "Frecuencia Wi-Fi",
+  "wifiLinkSpeed": "Velocidad de enlace Wi-Fi",
+  "androidNetworkSettings": "Ajustes de red de Android",
+  "httpsDiagnosticsNote": "La latencia, pérdida y jitter son estimaciones basadas en solicitudes HTTPS, no en ping ICMP. Los datos Wi-Fi no están disponibles por Ethernet ni en dispositivos que no los exponen.",
+  "quickSettings": "Ajustes rápidos",
+  "wifiSettings": "Ajustes de Wi-Fi",
+  "bluetoothSettings": "Ajustes de Bluetooth",
+  "sleep": "Suspender",
+  "screensaver": "Salvapantallas",
+  "screensaverExit": "Presioná cualquier botón para salir",
+  "sleepAccessibilityRequired": "Para usar Suspender, activá FLauncher en Accesibilidad de Android e intentá de nuevo.",
+  "quickSettingsNote": "Wi-Fi y Bluetooth abren los ajustes de Android porque el cambio directo está restringido. Suspender requiere el servicio de accesibilidad opcional de FLauncher.",
+  "topBar": "Barra superior",
+  "showDate": "Mostrar fecha",
+  "showNetworkStatus": "Mostrar estado de red",
+  "showLocalIpAddress": "Mostrar dirección IP local",
+  "storage": "Almacenamiento",
+  "storageFree": "{free} libres de {total}",
+  "@storageFree": {
+    "placeholders": {
+      "free": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "storageLow": "Poco espacio",
+  "manageApps": "Administrar aplicaciones",
+  "storageUnavailable": "No hay datos de almacenamiento",
+  "launcherMemory": "Memoria del launcher",
+  "launcherMemoryUsed": "{used} utilizados",
+  "@launcherMemoryUsed": {
+    "placeholders": {
+      "used": {"type": "String"}
+    }
+  },
+  "launcherMemoryUnavailable": "No hay datos de memoria",
+  "searchApps": "Buscar aplicaciones",
+  "noSearchResults": "No se encontraron aplicaciones",
+  "recentApps": "Aplicaciones recientes",
+  "clearRecentApps": "Limpiar",
+  "nextAlarm": "Alarma",
+  "showNextAlarm": "Mostrar próxima alarma",
+  "showWeather": "Mostrar clima",
+  "bluetoothDevices": "Dispositivos Bluetooth",
+  "bluetoothUnavailable": "No hay datos de Bluetooth",
+  "bluetoothBattery": "{level}% de batería",
+  "@bluetoothBattery": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "exportBackup": "Exportar copia",
+  "importBackup": "Importar copia",
+  "backupFailed": "No se pudo leer esa copia",
+  "screensaverBackground": "Fondo del salvapantallas",
+  "currentWallpaper": "Fondo actual"
 }
